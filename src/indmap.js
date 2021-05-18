@@ -386,7 +386,11 @@ var REG_DB = {
       "Divisor":"17:8",
       "SrcSel":" 2:0",
       "Absolute_Address":"0x00F12605C4"
-   }
+   },
+   "REQ_PWRUP_INT_EN": {"Absolute_Address": "0xFFC90118", "reserved": "6:2", "FP": "22", "GEM0": "21", "GEM1": "20", "OCM_Bank3": "19", "OCM_Bank2": "18", "OCM_Bank1": "17", "OCM_Bank0": "16", "TCM1B": "15", "TCM1A": "14", "TCM0B": "13", "TCM0A": "12", "RPU": "10", "L2_Bank0": "7", "ACPU1": "1", "ACPU0": "0"}, "REQ_PWRUP_TRIG": {"Absolute_Address": "0xFFC90120", "reserved": "6:2", "FP": "22", "GEM0": "21", "GEM1": "20", "OCM_Bank3": "19", "OCM_Bank2": "18", "OCM_Bank1": "17", "OCM_Bank0": "16", "TCM1B": "15", "TCM1A": "14", "TCM0B": "13", "TCM0A": "12", "RPU": "10", "L2_Bank0": "7", "ACPU1": "1", "ACPU0": "0"}, "PWR_STATE": {"Absolute_Address": "0xFFC90100", "reserved": "6:2", "FP": "22", "GEM0": "21", "GEM1": "20", "OCM_Bank3": "19", "OCM_Bank2": "18", "OCM_Bank1": "17", "OCM_Bank0": "16", "TCM1B": "15", "TCM1A": "14", "TCM0B": "13", "TCM0A": "12", "R5_1": "11", "R5_0": "10", "L2_Bank0": "7", "ACPU1": "1", "ACPU0": "0"}, "REQ_PWRDWN_INT_EN": {"Absolute_Address": "0xFFC90218", "reserved": "6:2", "FP": "22", "GEM0": "21", "GEM1": "20", "OCM_Bank3": "19", "OCM_Bank2": "18", "OCM_Bank1": "17", "OCM_Bank0": "16", "TCM1B": "15", "TCM1A": "14", "TCM0B": "13", "TCM0A": "12", "RPU": "10", "L2_Bank0": "7", "ACPU1": "1", "ACPU0": "0"}, "REQ_PWRDWN_TRIG": {"Absolute_Address": "0xFFC90220", "reserved": "6:2", "FP": "22", "GEM0": "21", "GEM1": "20", "OCM_Bank3": "19", "OCM_Bank2": "18", "OCM_Bank1": "17", "OCM_Bank0": "16", "TCM1B": "15", "TCM1A": "14", "TCM0B": "13", "TCM0A": "12", "RPU": "10", "L2_Bank0": "7", "ACPU1": "1", "ACPU0": "0"}, "CPU_R5_CTRL": {"Absolute_Address": "0xFF5E010C", "reserved": "7:3", "CLKACT_OCM2": "28", "CLKACT_OCM": "27", "CLKACT_CORE": "26", "CLKACT": "25", "DIVISOR0": "17:8", "SRCSEL": "2:0"}, "ACPU_CTRL": {"Absolute_Address": "0xFD1A010C", "reserved": "7:3", "CLKACT": "25", "DIVISOR0": "17:8", "SRCSEL": "2:0"}, "DDR_RETENTION": {"Absolute_Address": "0xF1110324", "value": "0"}, "PWR_SUPPLY_STATUS": {"Absolute_Address": "0xF111010C", "reserved": "31:8", "VCCINT_RAM": "7", "VCCINT_PL": "6", "VCCAUX": "5", "VCCINT_SOC": "4", "VCCINT_LPD": "3", "VCCINT_FPD": "2", "VCCINT_PMC": "1", "VCCAUX_PMC": "0"}, "cur_pwr_st": {"Absolute_Address": "0xF1060600", "reserved": "31:2", "u2pmu": "1:0"}, "PMCPLL_CTRL": {"Absolute_Address": "0xF1260040", "reserved": "2:1", "POST_SRC": "26:24", "PRE_SRC": "22:20", "CLKOUTDIV": "17:16", "FBDIV": "15:8", "BYPASS": "3", "RESET": "0"}, "PMC_PL0_REF_CTRL": {"Absolute_Address": "0xF12605C0", "reserved": "7:3", "CLKACT": "24", "DIVISOR0": "17:8", "SRCSEL": "2:0"}, "PMC_PL1_REF_CTRL": {"Absolute_Address": "0xF12605C4", "reserved": "7:3", "CLKACT": "24", "DIVISOR0": "17:8", "SRCSEL": "2:0"}
+
+
+
 };
 // index of buttons and action elements
 var a_indexes = {
@@ -449,23 +453,16 @@ var mappin = {
         "title" : "R5 x2"
         ,"onclick" : [GUI_KEYS.popups]
         ,"elems" : [{
-            "title" : "R5/0"
+            "title" : "R5"
+            ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":"0"   //'Pwr_Gates': ' 3:0'
-            ,"getaddress": REG_DB.RPU_PWR_STATUS.Absolute_Address
-            ,"setbit":"0"
-            ,"setaddress": REG_DB.RPU_PWR_CTRL.Absolute_Address
-            ,"calc": function(adr){}
-        }
-        ,{
-            "title" : "R5/1"
-            ,"type": [GUI_KEYS.checkbox]
-            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":"1"
-            ,"getaddress":REG_DB.RPU_PWR_STATUS.Absolute_Address
-            ,"setbit":"1"
-            ,"setaddress": REG_DB.RPU_PWR_CTRL.Absolute_Address
+            ,"getbit":REG_DB.PWR_STATE.R5_0   //TODO :: To change single bit read to multiple bit read as R%/1 and R5/2.
+            ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.RPU,REG_DB.REQ_PWRUP_TRIG.RPU]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.RPU,REG_DB.REQ_PWRDWN_TRIG.RPU]
+            ,"setaddress_off": [REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
         }
         ]
@@ -475,42 +472,54 @@ var mappin = {
         ,"onclick" : [GUI_KEYS.popups]
         ,"elems" : [{
             "title" : "TCMA/0"
+            ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":REG_DB.TCM_PWR_STATUS.TCMA0
-            ,"getaddress": REG_DB.TCM_PWR_STATUS.Absolute_Address
-            ,"setbit":REG_DB.TCM_PWR_CTRL.TCMA0
-            ,"setaddress": REG_DB.TCM_PWR_CTRL.Absolute_Address
+            ,"getbit":REG_DB.PWR_STATE.TCMA0
+            ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.TCM0A,REG_DB.REQ_PWRUP_TRIG.TCM0A]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.TCM0A,REG_DB.REQ_PWRDWN_TRIG.TCM0A]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
         }
         ,{
             "title" : "TCMA/1"
+            ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":REG_DB.TCM_PWR_STATUS.TCMA1
-            ,"getaddress":REG_DB.TCM_PWR_STATUS.Absolute_Address
-            ,"setbit":REG_DB.TCM_PWR_CTRL.TCMA1
-            ,"setaddress": REG_DB.TCM_PWR_CTRL.Absolute_Address
+            ,"getbit":REG_DB.PWR_STATE.TCMA1
+            ,"getaddress":REG_DB.PWR_STATE.Absolute_Address
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.TCM1A,REG_DB.REQ_PWRUP_TRIG.TCM1A]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.TCM1A,REG_DB.REQ_PWRDWN_TRIG.TCM1A]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
         }
         ,{
             "title" : "TCMB/0"
+            ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":REG_DB.TCM_PWR_STATUS.TCMB0
-            ,"getaddress": REG_DB.TCM_PWR_STATUS.Absolute_Address
-            ,"setbit":REG_DB.TCM_PWR_CTRL.TCMB0
-            ,"setaddress": REG_DB.TCM_PWR_CTRL.Absolute_Address
+            ,"getbit":REG_DB.PWR_STATE.TCMB0
+            ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.TCM0B,REG_DB.REQ_PWRUP_TRIG.TCM0B]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.TCM0B,REG_DB.REQ_PWRDWN_TRIG.TCM0B]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
         }
         ,{
             "title" : "TCMB/1"
+            ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":REG_DB.TCM_PWR_STATUS.TCMB1
-            ,"getaddress":REG_DB.TCM_PWR_STATUS.Absolute_Address
-            ,"setbit":REG_DB.TCM_PWR_CTRL.TCMB1
-            ,"setaddress": REG_DB.TCM_PWR_CTRL.Absolute_Address
+            ,"getbit":REG_DB.PWR_STATE.TCMB1
+            ,"getaddress":REG_DB.PWR_STATE.Absolute_Address
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.TCM1B,REG_DB.REQ_PWRUP_TRIG.TCM1B]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.TCM1B,REG_DB.REQ_PWRDWN_TRIG.TCM1B]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
         }
         ]
@@ -520,42 +529,54 @@ var mappin = {
         ,"onclick" : [GUI_KEYS.popups]
         ,"elems" : [{
             "title" : "Bank 0"
+            ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":REG_DB.OCM_PWR_STATUS.Bank0
-            ,"getaddress": REG_DB.OCM_PWR_STATUS.Absolute_Address
-            ,"setbit":REG_DB.OCM_PWR_CTRL.Bank0
-            ,"setaddress": REG_DB.OCM_PWR_CTRL.Absolute_Address
+            ,"getbit":REG_DB.PWR_STATE.OCM_Bank0
+            ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.OCM_Bank0,REG_DB.REQ_PWRUP_TRIG.OCM_Bank0]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.OCM_Bank0,REG_DB.REQ_PWRDWN_TRIG.OCM_Bank0]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
         }
         ,{
             "title" : "Bank 1"
+            ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":REG_DB.OCM_PWR_STATUS.Bank1
-            ,"getaddress":REG_DB.OCM_PWR_STATUS.Absolute_Address
-            ,"setbit":REG_DB.OCM_PWR_CTRL.Bank1
-            ,"setaddress": REG_DB.OCM_PWR_CTRL.Absolute_Address
+            ,"getbit":REG_DB.PWR_STATE.OCM_Bank1
+            ,"getaddress":REG_DB.PWR_STATE.Absolute_Address
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.OCM_Bank1,REG_DB.REQ_PWRUP_TRIG.OCM_Bank1]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.OCM_Bank1,REG_DB.REQ_PWRDWN_TRIG.OCM_Bank1]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
         }
         ,{
             "title" : "Bank 2"
+            ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":REG_DB.OCM_PWR_STATUS.Bank2
-            ,"getaddress": REG_DB.OCM_PWR_STATUS.Absolute_Address
-            ,"setbit":REG_DB.OCM_PWR_CTRL.Bank2
-            ,"setaddress": REG_DB.OCM_PWR_CTRL.Absolute_Address
+            ,"getbit":REG_DB.PWR_STATE.OCM_Bank2
+            ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.OCM_Bank2,REG_DB.REQ_PWRUP_TRIG.OCM_Bank2]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.OCM_Bank2,REG_DB.REQ_PWRDWN_TRIG.OCM_Bank2]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
         }
         ,{
             "title" : "Bank 3"
+            ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":REG_DB.OCM_PWR_STATUS.Bank3
-            ,"getaddress":REG_DB.OCM_PWR_STATUS.Absolute_Address
-            ,"setbit":REG_DB.OCM_PWR_CTRL.Bank3
-            ,"setaddress": REG_DB.OCM_PWR_CTRL.Absolute_Address
+            ,"getbit":REG_DB.PWR_STATE.OCM_Bank3
+            ,"getaddress":REG_DB.PWR_STATE.Absolute_Address
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.OCM_Bank3,REG_DB.REQ_PWRUP_TRIG.OCM_Bank3]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.OCM_Bank3,REG_DB.REQ_PWRDWN_TRIG.OCM_Bank3]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
         }
         ]
@@ -779,20 +800,26 @@ var mappin = {
             "title" : "GEM 0"
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit": REG_DB.GEM_PWR_STATUS.GEM0
-            ,"getaddress": REG_DB.GEM_PWR_STATUS.Absolute_Address
-            ,"setbit": REG_DB.GEM_PWR_CTRL.GEM0
-            ,"setaddress": REG_DB.GEM_PWR_CTRL.Absolute_Address
+            ,"getbit": REG_DB.PWR_STATE.GEM0
+            ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
+            ,[GUI_KEYS.registers_set_exception] : 1
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.GEM0,REG_DB.REQ_PWRUP_TRIG.GEM0]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.GEM0,REG_DB.REQ_PWRDWN_TRIG.GEM0]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
         }
         ,{
             "title" : "GEM 1"
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit": REG_DB.GEM_PWR_STATUS.GEM1
-            ,"getaddress": REG_DB.GEM_PWR_STATUS.Absolute_Address
-            ,"setbit": REG_DB.GEM_PWR_CTRL.GEM1
-            ,"setaddress": REG_DB.GEM_PWR_CTRL.Absolute_Address
+            ,"getbit": REG_DB.PWR_STATE.GEM1
+            ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
+            ,[GUI_KEYS.registers_set_exception] : 1
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.GEM1,REG_DB.REQ_PWRUP_TRIG.GEM1]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.GEM1,REG_DB.REQ_PWRDWN_TRIG.GEM1]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
         }
         ]
@@ -800,7 +827,34 @@ var mappin = {
     ,[GUIC.A72] : {
         "title" : "A72 x2"
         ,"onclick" : [GUI_KEYS.popups]
-        ,"elems" : []
+        ,"elems" : [
+        {
+            "title" : "APU 0"
+            ,"type": [GUI_KEYS.checkbox]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.PWR_STATE.ACPU0
+            ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
+            ,[GUI_KEYS.registers_set_exception] : 1
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.ACPU0,REG_DB.REQ_PWRUP_TRIG.ACPU0]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.ACPU0,REG_DB.REQ_PWRDWN_TRIG.ACPU0]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
+            ,"calc": function(adr){}
+        }
+        ,{
+            "title" : "APU 1"
+            ,"type": [GUI_KEYS.checkbox]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.PWR_STATE.ACPU1
+            ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
+            ,[GUI_KEYS.registers_set_exception] : 1
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.ACPU1,REG_DB.REQ_PWRUP_TRIG.ACPU1]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.ACPU1,REG_DB.REQ_PWRDWN_TRIG.ACPU1]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
+            ,"calc": function(adr){}
+        }
+        ]
     }
     ,[GUIC.L2] : {
         "title" : "L2 x2"
@@ -809,10 +863,28 @@ var mappin = {
             "title" : "Bank 0"
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit": REG_DB.L2_PWR_STATUS.Bank0
-            ,"getaddress": REG_DB.L2_PWR_STATUS.Absolute_Address
-            ,"setbit": REG_DB.L2_PWR_CTRL.Bank0
-            ,"setaddress": REG_DB.L2_PWR_CTRL.Absolute_Address
+            ,"getbit": REG_DB.PWR_STATE.L2_Bank0
+            ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
+            ,[GUI_KEYS.registers_set_exception] : 1
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.L2_Bank0,REG_DB.REQ_PWRUP_TRIG.L2_Bank0]
+            ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.L2_Bank0,REG_DB.REQ_PWRDWN_TRIG.L2_Bank0]
+            ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
+            ,"calc": function(adr){}
+        }
+        ]
+    }
+    ,[GUIC.DDR] : {
+        "title" : "DDR"
+        ,"onclick" : [GUI_KEYS.popups]
+        ,"elems" : [{
+            "title" : "DDR Retention"
+            ,"type": [GUI_KEYS.checkbox]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.DDR_RETENTION.value
+            ,"getaddress": REG_DB.DDR_RETENTION.Absolute_Address
+            ,"setbit":REG_DB.DDR_RETENTION.value
+            ,"setaddress": REG_DB.DDR_RETENTION.Absolute_Address
             ,"calc": function(adr){}
         }
         ]

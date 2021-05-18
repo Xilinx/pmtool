@@ -102,6 +102,7 @@ function analyseApply(){
 
     var reqJSon = {};
     var erow = $("#popuptbody").find("tr");
+    var orderedAry = [];
     jQuery.each(erow, function(j,trs){
         jQuery.each(trs.childNodes, function(k,tds){
             try{
@@ -124,39 +125,42 @@ function analyseApply(){
                             reqJSon[ele.getAttribute("setaddress")][1] = bs;
                             reqJSon[ele.getAttribute("setaddress")][2] = ele.getAttribute("xsdbtarget");
                         }else{
-                            var bs = 0;
-                            var bpos = 0;
                             if(ele.checked){
+                                var adrs = ele.getAttribute("setaddress_on").split(",");
+                                var biar = ele.getAttribute("setbit_on").split(",");
+                                for (var l = 0; l < adrs.length; l++){
+                                    var bs = 0;
+                                    var bpos = 0;
+                                    bs = bs | (biar[l]);
 
-                                if(reqJSon[ele.getAttribute("setaddress_on")] !== undefined){
-
-                                    bpos = reqJSon[ele.getAttribute("setaddress_on")][0];
-                                    bs = reqJSon[ele.getAttribute("setaddress_on")][1];
+                                    bpos = bpos | (biar[l]);
+                                    var ob = {};
+                                    ob["address"] = adrs[l];
+                                    ob["bitposition"] = "0x" + bpos.toString(16);
+                                    ob["bitstatus"] = "0x" + bs.toString(16);
+                                    ob["xsdbtarget"] = ele.getAttribute("xsdbtarget")
+                                    orderedAry.push(ob);
                                 }
-
-                                    bs = bs | (ele.getAttribute("setbit_on"));
-
-                                bpos = bpos | (ele.getAttribute("setbit_on"));
-                                reqJSon[ele.getAttribute("setaddress_on")] = [];
-                                reqJSon[ele.getAttribute("setaddress_on")][0] = bpos;
-                                reqJSon[ele.getAttribute("setaddress_on")][1] = bs;
-                                reqJSon[ele.getAttribute("setaddress_on")][2] = ele.getAttribute("xsdbtarget")
-                            }else{
-
-                                if(reqJSon[ele.getAttribute("setaddress_off")] !== undefined){
-
-                                    bpos = reqJSon[ele.getAttribute("setaddress_off")][0];
-                                    bs = reqJSon[ele.getAttribute("setaddress_off")][1];
-                                }
-                                bs = bs | (ele.getAttribute("setbit_off"));
-                                bpos = bpos | (ele.getAttribute("setbit_off"));
-                                reqJSon[ele.getAttribute("setaddress_off")] = [];
-                                reqJSon[ele.getAttribute("setaddress_off")][0] = bpos;
-                                reqJSon[ele.getAttribute("setaddress_off")][1] = bs;
-                                reqJSon[ele.getAttribute("setaddress_off")][2] = ele.getAttribute("xsdbtarget");
                             }
-
+                            else{
+                                var adrs = ele.getAttribute("setaddress_off").split(",");
+                                var biar = ele.getAttribute("setbit_off").split(",");
+                                for (var l = 0; l < adrs.length; l++){
+                                    var bs = 0;
+                                    var bpos = 0;
+                                    bs = bs | (biar[l]);
+                                    bpos = bpos | (biar[l]);
+                                    var ob = {};
+                                    ob["address"] = adrs[l];
+                                    ob["bitposition"] = "0x" + bpos.toString(16);
+                                    ob["bitstatus"] = "0x" + bs.toString(16);
+                                    ob["xsdbtarget"] = ele.getAttribute("xsdbtarget")
+                                    orderedAry.push(ob);
+                                }
+                            }
                         }
+
+
                     }
                 });
             }catch(err){};
@@ -171,6 +175,8 @@ function analyseApply(){
         ob["xsdbtarget"] = reqJSon[key][2]
         reqData.push(ob);
     });
+    reqData.push(...orderedAry);
+//    console.log(JSON.stringify(reqData));
     var results = {};
     $.ajax({
             url: req_regdata_url + "/setregister/",
@@ -278,6 +284,7 @@ function sampleClicked(){
     }
 
     var adrs = JSON.stringify(far);
+//    console.log({"address":adrs});
         $.ajax({
             url: req_regdata_url + "/getregister/",
             type: 'GET',
@@ -321,6 +328,8 @@ function readpopupdata(obj,keyid){
         document.getElementById("apiloadingdiv").style.display = "none";
         return;
     }
+//        console.log({"address":adrs});
+
     $.ajax({
             url: req_regdata_url + "/getregister/",
             type: 'GET',
