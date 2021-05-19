@@ -47,8 +47,9 @@ var GUI_KEYS = Enum(gks);
 
 // xsdb targets list
 var XSDBTARGETSLIST = {
-    "TARGET00": "RPU (PS POR is active)"
-    ,"TARGET01": "APU (FPD domain isolation)"
+    "TARGET00": "Versal xcvc1902"
+    ,"TARGET01": "RPU (PS POR is active)"
+    ,"TARGET02": "APU (FPD domain isolation)"
 };
 
 // reg db
@@ -475,7 +476,7 @@ var mappin = {
             ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":REG_DB.PWR_STATE.TCMA0
+            ,"getbit":REG_DB.PWR_STATE.TCM0A
             ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
             ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.TCM0A,REG_DB.REQ_PWRUP_TRIG.TCM0A]
             ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
@@ -488,7 +489,7 @@ var mappin = {
             ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":REG_DB.PWR_STATE.TCMA1
+            ,"getbit":REG_DB.PWR_STATE.TCM1A
             ,"getaddress":REG_DB.PWR_STATE.Absolute_Address
             ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.TCM1A,REG_DB.REQ_PWRUP_TRIG.TCM1A]
             ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
@@ -501,7 +502,7 @@ var mappin = {
             ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":REG_DB.PWR_STATE.TCMB0
+            ,"getbit":REG_DB.PWR_STATE.TCM0B
             ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
             ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.TCM0B,REG_DB.REQ_PWRUP_TRIG.TCM0B]
             ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
@@ -514,7 +515,7 @@ var mappin = {
             ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
-            ,"getbit":REG_DB.PWR_STATE.TCMB1
+            ,"getbit":REG_DB.PWR_STATE.TCM1B
             ,"getaddress":REG_DB.PWR_STATE.Absolute_Address
             ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.TCM1B,REG_DB.REQ_PWRUP_TRIG.TCM1B]
             ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]

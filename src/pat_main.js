@@ -34,7 +34,7 @@ function updateWithRealData(mappinObj){
     $.ajax({
             url: req_regdata_url + "/getregister/",
             type: 'GET',
-            data:{"address":"[\""+mappinObj["address"]+"\"]"},
+            data:JSON.stringify({"address":"[\""+mappinObj["address"]+"\"]"}),
             dataType: 'json',
             success: function (res){
                 if (res.length == 1){
@@ -176,7 +176,6 @@ function analyseApply(){
         reqData.push(ob);
     });
     reqData.push(...orderedAry);
-//    console.log(JSON.stringify(reqData));
     var results = {};
     $.ajax({
             url: req_regdata_url + "/setregister/",
@@ -287,9 +286,10 @@ function sampleClicked(){
 //    console.log({"address":adrs});
         $.ajax({
             url: req_regdata_url + "/getregister/",
-            type: 'GET',
-            data:{"address":adrs},
+            type: 'POST',
+            data:adrs,
             dataType: 'json',
+            contentType: 'application/json',
             success: function (res){
                 updateButtonStatus(res);
                 document.getElementById("apiloadingdiv").style.display = "none";
@@ -332,9 +332,10 @@ function readpopupdata(obj,keyid){
 
     $.ajax({
             url: req_regdata_url + "/getregister/",
-            type: 'GET',
-            data:{"address":adrs},
+            type: 'POST',
+            data:adrs,
             dataType: 'json',
+            contentType: 'application/json',
             success: function (res){
                     for (k in res){
                         results[res[k]["address"]] = res[k]["value"];
@@ -384,6 +385,7 @@ function displaypopup(obj,responseData,respState,keyid){
                var tdcomp = document.createElement("td");
                var em = document.createElement("input");
                em.setAttribute("type", "checkbox");
+             
                if(responseData[comp.getaddress] & (bitToAddress(comp.getbit))){
                     em.setAttribute("checked", true);
                }
@@ -392,11 +394,21 @@ function displaypopup(obj,responseData,respState,keyid){
                em.setAttribute("xsdbtarget", comp.xsdbtarget);
 
                if (GUI_KEYS.registers_set_exception in comp){
+
                    em.setAttribute("registers_set_exception", 1);
-                   em.setAttribute("setaddress_on", comp.setaddress_on);
-                   em.setAttribute("setbit_on", bitToAddress(comp.setbit_on));
-                   em.setAttribute("setaddress_off", comp.setaddress_off);
-                   em.setAttribute("setbit_off", bitToAddress(comp.setbit_off));
+                   em.setAttribute("setaddress_on", ""+comp.setaddress_on);
+                   var ar1 = []
+                   for(var i = 0; i< comp.setbit_on.length; i++){
+                        ar1.push(bitToAddress(comp.setbit_on[i]));
+                   }
+                   em.setAttribute("setbit_on", ar1);
+                   em.setAttribute("setaddress_off", ""+comp.setaddress_off);
+                   var ar2 = [];
+                   for(var i = 0; i < comp.setbit_off.length; i++){
+                        ar2.push(bitToAddress(comp.setbit_off[i]))
+                   }
+
+                   em.setAttribute("setbit_off", ar2);
                }else{
                    em.setAttribute("registers_set_exception", 0);
                    em.setAttribute("setaddress", comp.setaddress);
