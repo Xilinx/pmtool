@@ -23,6 +23,7 @@ function bitToAddress(biten){
     for(var i = parseInt(sp[1]); i <= parseInt(sp[0]); i++){
         ad = ad | (1 << i);
     }
+
     return ad;
 }
 
@@ -388,10 +389,164 @@ var REG_DB = {
       "SrcSel":" 2:0",
       "Absolute_Address":"0x00F12605C4"
    },
-   "REQ_PWRUP_INT_EN": {"Absolute_Address": "0xFFC90118", "reserved": "6:2", "FP": "22", "GEM0": "21", "GEM1": "20", "OCM_Bank3": "19", "OCM_Bank2": "18", "OCM_Bank1": "17", "OCM_Bank0": "16", "TCM1B": "15", "TCM1A": "14", "TCM0B": "13", "TCM0A": "12", "RPU": "10", "L2_Bank0": "7", "ACPU1": "1", "ACPU0": "0"}, "REQ_PWRUP_TRIG": {"Absolute_Address": "0xFFC90120", "reserved": "6:2", "FP": "22", "GEM0": "21", "GEM1": "20", "OCM_Bank3": "19", "OCM_Bank2": "18", "OCM_Bank1": "17", "OCM_Bank0": "16", "TCM1B": "15", "TCM1A": "14", "TCM0B": "13", "TCM0A": "12", "RPU": "10", "L2_Bank0": "7", "ACPU1": "1", "ACPU0": "0"}, "PWR_STATE": {"Absolute_Address": "0xFFC90100", "reserved": "6:2", "FP": "22", "GEM0": "21", "GEM1": "20", "OCM_Bank3": "19", "OCM_Bank2": "18", "OCM_Bank1": "17", "OCM_Bank0": "16", "TCM1B": "15", "TCM1A": "14", "TCM0B": "13", "TCM0A": "12", "R5_1": "11", "R5_0": "10", "L2_Bank0": "7", "ACPU1": "1", "ACPU0": "0"}, "REQ_PWRDWN_INT_EN": {"Absolute_Address": "0xFFC90218", "reserved": "6:2", "FP": "22", "GEM0": "21", "GEM1": "20", "OCM_Bank3": "19", "OCM_Bank2": "18", "OCM_Bank1": "17", "OCM_Bank0": "16", "TCM1B": "15", "TCM1A": "14", "TCM0B": "13", "TCM0A": "12", "RPU": "10", "L2_Bank0": "7", "ACPU1": "1", "ACPU0": "0"}, "REQ_PWRDWN_TRIG": {"Absolute_Address": "0xFFC90220", "reserved": "6:2", "FP": "22", "GEM0": "21", "GEM1": "20", "OCM_Bank3": "19", "OCM_Bank2": "18", "OCM_Bank1": "17", "OCM_Bank0": "16", "TCM1B": "15", "TCM1A": "14", "TCM0B": "13", "TCM0A": "12", "RPU": "10", "L2_Bank0": "7", "ACPU1": "1", "ACPU0": "0"}, "CPU_R5_CTRL": {"Absolute_Address": "0xFF5E010C", "reserved": "7:3", "CLKACT_OCM2": "28", "CLKACT_OCM": "27", "CLKACT_CORE": "26", "CLKACT": "25", "DIVISOR0": "17:8", "SRCSEL": "2:0"}, "ACPU_CTRL": {"Absolute_Address": "0xFD1A010C", "reserved": "7:3", "CLKACT": "25", "DIVISOR0": "17:8", "SRCSEL": "2:0"}, "DDR_RETENTION": {"Absolute_Address": "0xF1110324", "value": "0"}, "PWR_SUPPLY_STATUS": {"Absolute_Address": "0xF111010C", "reserved": "31:8", "VCCINT_RAM": "7", "VCCINT_PL": "6", "VCCAUX": "5", "VCCINT_SOC": "4", "VCCINT_LPD": "3", "VCCINT_FPD": "2", "VCCINT_PMC": "1", "VCCAUX_PMC": "0"}, "cur_pwr_st": {"Absolute_Address": "0xF1060600", "reserved": "31:2", "u2pmu": "1:0"}, "PMCPLL_CTRL": {"Absolute_Address": "0xF1260040", "reserved": "2:1", "POST_SRC": "26:24", "PRE_SRC": "22:20", "CLKOUTDIV": "17:16", "FBDIV": "15:8", "BYPASS": "3", "RESET": "0"}, "PMC_PL0_REF_CTRL": {"Absolute_Address": "0xF12605C0", "reserved": "7:3", "CLKACT": "24", "DIVISOR0": "17:8", "SRCSEL": "2:0"}, "PMC_PL1_REF_CTRL": {"Absolute_Address": "0xF12605C4", "reserved": "7:3", "CLKACT": "24", "DIVISOR0": "17:8", "SRCSEL": "2:0"}
-
-
-
+   "REQ_PWRUP_INT_EN": {
+        "Absolute_Address": "0xFFC90118",
+        "reserved": "6:2",
+        "FP": "22",
+        "GEM0": "21",
+        "GEM1": "20",
+        "OCM_Bank3": "19",
+        "OCM_Bank2": "18",
+        "OCM_Bank1": "17",
+        "OCM_Bank0": "16",
+        "TCM1B": "15",
+        "TCM1A": "14",
+        "TCM0B": "13",
+        "TCM0A": "12",
+        "RPU": "10",
+        "L2_Bank0": "7",
+        "ACPU1": "1",
+        "ACPU0": "0"
+      },
+   "REQ_PWRUP_TRIG": {
+        "Absolute_Address": "0xFFC90120",
+        "reserved": "6:2",
+        "FP": "22",
+        "GEM0": "21",
+        "GEM1": "20",
+        "OCM_Bank3": "19",
+        "OCM_Bank2": "18",
+        "OCM_Bank1": "17",
+        "OCM_Bank0": "16",
+        "TCM1B": "15",
+        "TCM1A": "14",
+        "TCM0B": "13",
+        "TCM0A": "12",
+        "RPU": "10",
+        "L2_Bank0": "7",
+        "ACPU1": "1",
+        "ACPU0": "0"
+      },
+      "PWR_STATE": {
+        "Absolute_Address": "0xFFC90100",
+        "reserved": "6:2",
+        "FP": "22",
+        "GEM0": "21",
+        "GEM1": "20",
+        "OCM_Bank3": "19",
+        "OCM_Bank2": "18",
+        "OCM_Bank1": "17",
+        "OCM_Bank0": "16",
+        "TCM1B": "15",
+        "TCM1A": "14",
+        "TCM0B": "13",
+        "TCM0A": "12",
+        "R5_1": "11",
+        "R5_0": "10",
+        "L2_Bank0": "7",
+        "ACPU1": "1",
+        "ACPU0": "0"
+      },
+      "REQ_PWRDWN_INT_EN": {
+        "Absolute_Address": "0xFFC90218",
+        "reserved": "6:2",
+        "FP": "22",
+        "GEM0": "21",
+        "GEM1": "20",
+        "OCM_Bank3": "19",
+        "OCM_Bank2": "18",
+        "OCM_Bank1": "17",
+        "OCM_Bank0": "16",
+        "TCM1B": "15",
+        "TCM1A": "14",
+        "TCM0B": "13",
+        "TCM0A": "12",
+        "RPU": "10",
+        "L2_Bank0": "7",
+        "ACPU1": "1",
+        "ACPU0": "0"
+      },
+      "REQ_PWRDWN_TRIG": {
+        "Absolute_Address": "0xFFC90220",
+        "reserved": "6:2",
+        "FP": "22",
+        "GEM0": "21",
+        "GEM1": "20",
+        "OCM_Bank3": "19",
+        "OCM_Bank2": "18",
+        "OCM_Bank1": "17",
+        "OCM_Bank0": "16",
+        "TCM1B": "15",
+        "TCM1A": "14",
+        "TCM0B": "13",
+        "TCM0A": "12",
+        "RPU": "10",
+        "L2_Bank0": "7",
+        "ACPU1": "1",
+        "ACPU0": "0"
+      },
+      "CPU_R5_CTRL": {
+        "Absolute_Address": "0xFF5E010C",
+        "reserved": "7:3",
+        "CLKACT_OCM2": "28",
+        "CLKACT_OCM": "27",
+        "CLKACT_CORE": "26",
+        "CLKACT": "25",
+        "DIVISOR0": "17:8",
+        "SRCSEL": "2:0"
+      },
+      "ACPU_CTRL": {
+        "Absolute_Address": "0xFD1A010C",
+        "reserved": "7:3",
+        "CLKACT": "25",
+        "DIVISOR0": "17:8",
+        "SRCSEL": "2:0"
+      },
+      "DDR_RETENTION": {
+        "Absolute_Address": "0xF1110324",
+        "value": "0"
+      },
+      "PWR_SUPPLY_STATUS": {
+        "Absolute_Address": "0xF111010C",
+        "reserved": "31:8",
+        "VCCINT_RAM": "7",
+        "VCCINT_PL": "6",
+        "VCCAUX": "5",
+        "VCCINT_SOC": "4",
+        "VCCINT_LPD": "3",
+        "VCCINT_FPD": "2",
+        "VCCINT_PMC": "1",
+        "VCCAUX_PMC": "0"
+      },
+      "cur_pwr_st": {
+        "Absolute_Address": "0xF1060600",
+        "reserved": "31:2",
+        "u2pmu": "1:0"
+      },
+      "PMCPLL_CTRL": {
+        "Absolute_Address": "0xF1260040",
+        "reserved": "2:1",
+        "POST_SRC": "26:24",
+        "PRE_SRC": "22:20",
+        "CLKOUTDIV": "17:16",
+        "FBDIV": "15:8",
+        "BYPASS": "3",
+        "RESET": "0"
+      },
+      "PMC_PL0_REF_CTRL": {
+        "Absolute_Address": "0xF12605C0",
+        "reserved": "7:3",
+        "CLKACT": "24",
+        "DIVISOR0": "17:8",
+        "SRCSEL": "2:0"
+      },
+      "PMC_PL1_REF_CTRL": {
+        "Absolute_Address": "0xF12605C4",
+        "reserved": "7:3",
+        "CLKACT": "24",
+        "DIVISOR0": "17:8",
+        "SRCSEL": "2:0"
+      }
 };
 // index of buttons and action elements
 var a_indexes = {
@@ -468,23 +623,24 @@ var mappin = {
         }
         ]
     }
-    ,[GUIC.TCM] : {
+    ,[GUIC.TCM] : {     // All the 4 bits has to be enabled once or disabled once..
+    // for TCM power down other TCMs need to be power down means tcm0a, tcm0b, tcm1a, tcm1b all needs to power down then only actual power down will happen
         "title" : "TCM x4"
         ,"onclick" : [GUI_KEYS.popups]
         ,"elems" : [{
-            "title" : "TCMA/0"
+            "title" : "TCM"
             ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
             ,"getbit":REG_DB.PWR_STATE.TCM0A
             ,"getaddress": REG_DB.PWR_STATE.Absolute_Address
-            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.TCM0A,REG_DB.REQ_PWRUP_TRIG.TCM0A]
+            ,"setbit_on":[REG_DB.REQ_PWRUP_INT_EN.TCM1B+":"+REG_DB.REQ_PWRUP_INT_EN.TCM0A,REG_DB.REQ_PWRUP_TRIG.TCM1B+":"+REG_DB.REQ_PWRUP_TRIG.TCM0A]
             ,"setaddress_on": [REG_DB.REQ_PWRUP_INT_EN.Absolute_Address,REG_DB.REQ_PWRUP_TRIG.Absolute_Address]
-            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.TCM0A,REG_DB.REQ_PWRDWN_TRIG.TCM0A]
+            ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.TCM1B+":"+REG_DB.REQ_PWRDWN_INT_EN.TCM0A,REG_DB.REQ_PWRDWN_TRIG.TCM1B+":"+REG_DB.REQ_PWRDWN_TRIG.TCM0A]
             ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
         }
-        ,{
+        /*,{
             "title" : "TCMA/1"
             ,[GUI_KEYS.registers_set_exception] : 1
             ,"type": [GUI_KEYS.checkbox]
@@ -522,9 +678,10 @@ var mappin = {
             ,"setbit_off":[REG_DB.REQ_PWRDWN_INT_EN.TCM1B,REG_DB.REQ_PWRDWN_TRIG.TCM1B]
             ,"setaddress_off":[REG_DB.REQ_PWRDWN_INT_EN.Absolute_Address,REG_DB.REQ_PWRDWN_TRIG.Absolute_Address]
             ,"calc": function(adr){}
-        }
+        }*/
         ]
     }
+    /* // Currently OCM power up/down feature is disabled in psm so it will not work for bit 16-19
     ,[GUIC.OCM] : {
         "title" : "OCM x4"
         ,"onclick" : [GUI_KEYS.popups]
@@ -581,7 +738,9 @@ var mappin = {
             ,"calc": function(adr){}
         }
         ]
-    },[GUIC.XRAM] : {
+    }*/
+    /*VCK190 and VMK180 has no XRAM */
+    /*,[GUIC.XRAM] : {
         "title" : "XRAM x16"
         ,"onclick" : [GUI_KEYS.popups]
         ,"elems" : [{
@@ -793,7 +952,7 @@ var mappin = {
             ,"calc": function(adr){}
         }
         ]
-    }
+    }*/
     ,[GUIC.GEM] : {
         "title" : "GEM x2"
         ,"onclick" : [GUI_KEYS.popups]
@@ -890,6 +1049,7 @@ var mappin = {
         }
         ]
     }
+    /*PMC : No support for handling interrupt requests in plm */
 };
 // display labels
 var labelsmap = {
