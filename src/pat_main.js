@@ -21,6 +21,8 @@ id, type, x, y, width, valueToDisplay,
 //                $("#"+vk).text("30%");
 */
 
+var pmtool_version = "Beta.0.0";
+
 function getlocallinkwithport (portno){
 var url = window.location.href;
 return "http://"+url.split(":")[1].substring(2)+":"+portno
@@ -516,6 +518,8 @@ window.onclick = function(event) {
   }
 }
 $(document).ready(function () {
+    console.log("Version :v " + pmtool_version);
+
     var e = imagelayer("Layout.png",1);
 //    e.setAttribute("id","patguiimage");
     $("#mainpatgui").append(e);
