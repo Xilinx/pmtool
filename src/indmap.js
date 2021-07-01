@@ -48,9 +48,9 @@ var GUI_KEYS = Enum(gks);
 
 // xsdb targets list
 var XSDBTARGETSLIST = {
-    "TARGET00": "Versal xcvc1902"
-    ,"TARGET01": "RPU (PS POR is active)"
-    ,"TARGET02": "APU (FPD domain isolation)"
+    "TARGET00": "Versal"
+    ,"TARGET01": "RPU"
+    ,"TARGET02": "APU"
 };
 
 // reg db
