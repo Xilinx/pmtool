@@ -26,7 +26,17 @@ function bitToAddress(biten){
 
     return ad;
 }
-
+/* Function returns value present in particular bits
+*       eg: 0b110, 2:1
+*       returns 0b11
+*       val : input hex value
+*       biten: string of bits range eg.1:0
+*/
+function valAt(val, biten){
+        var resp = val & bitToAddress(biten)
+        var sp = (""+biten).trim().split(":")
+        return resp >> parseInt(sp[sp.length-1])
+}
 // GUI components
 var gc_array = [
 "close","PRESET","SAMPLE"
@@ -36,12 +46,13 @@ var gc_array = [
 ,"PMC","PMC_PERF","PMC_CLK","PD_PERPH"
 ,"AIE", "GTY","HARD_IP"
 ,"OPTIONS_PERF","OPTIONS_CLK","OPTIONS","INFO"
+,"PLLS"
 ];
 var GUIC = Enum(gc_array);
 
 // GUI Type KEYS
-var gks = ["popups","checkbox","calllocalfn","callextfnstrname"
-        ,"registers_set_exception"
+var gks = ["none","popups","label","checkbox","textfield","dropdown","calllocalfn","callextfnstrname"
+        ,"registers_set_exception","heading","clockspopup","registers_set_on_off_exception"
 
         ];
 var GUI_KEYS = Enum(gks);
@@ -351,7 +362,7 @@ var REG_DB = {
       "FBDIV":"15:8",
       "BYPASS":" 3",
       "RESET":" 0",
-      "Absolute_Address":"0x00FF5E0040"
+      "Absolute_Address":"0xFF5E0040"
    },
    "PMCPLL_CTRL":{
       "Post_Src":"26:24",
@@ -369,7 +380,7 @@ var REG_DB = {
       "FBDiv":"15:8",
       "Bypass":" 3",
       "Reset":" 0",
-      "Absolute_Address":"0x00F1260050"
+      "Absolute_Address":"0xF1260050"
    },
    "APU_CLK_CTRL":{
       "CLKACT":"25",
@@ -546,7 +557,12 @@ var REG_DB = {
         "CLKACT": "24",
         "DIVISOR0": "17:8",
         "SRCSEL": "2:0"
-      }
+      },
+      'APLL_CTRL': {'Absolute_Address': '0xFD1A0040', 'reserved': '2:1', 'POST_SRC': '26:24', 'PRE_SRC': '22:20', 'CLKOUTDIV': '17:16', 'FBDIV': '15:8', 'BYPASS': '3', 'RESET': '0'},
+      'CPU_R5_CTRL': {'Absolute_Address': '0xFF5E010C', 'reserved': '7:3', 'CLKACT_OCM2': '28', 'CLKACT_OCM': '27',
+                       'CLKACT_CORE': '26', 'CLKACT': '25', 'DIVISOR0': '17:8', 'SRCSEL': '2:0',
+                       'DIVISOR0_TXT_RANGE':'0-1023',
+                       'SRCSEL_DD_LIST':[[0b000,0b001,0b011],['PPLL','RPLL','NPLL'],['REG_DB.PMCPLL_CTRL','REG_DB.RPLL_CTRL','REG_DB.NOCPLL_CTRL']]}
 };
 // index of buttons and action elements
 var a_indexes = {
@@ -1049,11 +1065,91 @@ var mappin = {
         }
         ]
     }
+    ,[GUIC.R5_CLK] : {
+        "title" : "RPU Clock"
+        ,"onclick" : [GUI_KEYS.popups]
+        ,"elems" : [{
+            "title" : "CLKACT_CORE"
+            ,"type": [GUI_KEYS.checkbox]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.CPU_R5_CTRL.CLKACT_CORE
+            ,"getaddress": REG_DB.CPU_R5_CTRL.Absolute_Address
+            ,[GUI_KEYS.registers_set_on_off_exception] : 1
+            ,"setbit_on":[REG_DB.CPU_R5_CTRL.CLKACT, REG_DB.CPU_R5_CTRL.CLKACT_CORE]
+            ,"setaddress_on": [REG_DB.CPU_R5_CTRL.Absolute_Address, REG_DB.CPU_R5_CTRL.Absolute_Address]
+            ,"setbit_off":[REG_DB.CPU_R5_CTRL.CLKACT_CORE]
+            ,"setaddress_off": [REG_DB.CPU_R5_CTRL.Absolute_Address]
+            ,"calc": function(adr){}
+        }
+        ,{
+            "title" : "DIVISOR"
+            ,"type": [GUI_KEYS.textfield]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.CPU_R5_CTRL.DIVISOR0
+            ,"getaddress": REG_DB.CPU_R5_CTRL.Absolute_Address
+            ,"setbit":REG_DB.CPU_R5_CTRL.DIVISOR0
+            ,"setaddress": REG_DB.CPU_R5_CTRL.Absolute_Address
+            ,"range": REG_DB.CPU_R5_CTRL.DIVISOR0_TXT_RANGE
+            ,"calc": function(adr){}
+        }
+        ,{
+            "title" : "SRCSEL"
+            ,"type": [GUI_KEYS.dropdown]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.CPU_R5_CTRL.SRCSEL
+            ,"getaddress": REG_DB.CPU_R5_CTRL.Absolute_Address
+            ,"setbit":REG_DB.CPU_R5_CTRL.SRCSEL
+            ,"setaddress": REG_DB.CPU_R5_CTRL.Absolute_Address
+            ,"ddlist": REG_DB.CPU_R5_CTRL.SRCSEL_DD_LIST
+            ,"calc": function(adr){}
+        }
+        ,{
+            "title" : "CLC_PERCENT"
+            ,"type": [GUI_KEYS.label]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.CPU_R5_CTRL.CLKACT
+            ,"getaddress": REG_DB.CPU_R5_CTRL.Absolute_Address
+            ,"label": [GUIC.R5_CLK]
+            ,"ddlist": REG_DB.CPU_R5_CTRL.SRCSEL_DD_LIST
+            ,"calc": function(adr){}
+        }
+
+        ]
+    }
+    ,[GUIC.PLLS] : {
+        "title" : "PLLs"
+        ,"onclick" : [GUI_KEYS.none]
+        ,"elems" : [{
+            "title" : "PMCPLL_CTRL"
+            ,"type": [GUI_KEYS.none]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.PMCPLL_CTRL.RESET
+            ,"getaddress": REG_DB.PMCPLL_CTRL.Absolute_Address
+            ,"calc": function(adr){}
+        }
+        ,{
+            "title" : "RPLL_CTRL"
+            ,"type": [GUI_KEYS.none]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.RPLL_CTRL.RESET
+            ,"getaddress": REG_DB.RPLL_CTRL.Absolute_Address
+            ,"calc": function(adr){}
+        }
+        ,{
+            "title" : "NOCPLL_CTRL"
+            ,"type": [GUI_KEYS.none]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.NOCPLL_CTRL.RESET
+            ,"getaddress": REG_DB.NOCPLL_CTRL.Absolute_Address
+            ,"calc": function(adr){}
+        }
+        ]
+    }
     /*PMC : No support for handling interrupt requests in plm */
 };
 // display labels
 var labelsmap = {
-//    [GUIC.R5_PERF] :{
-//        "dVal" : ""
-//    }
+    [GUIC.R5_CLK] :{
+        "dVal" : ""
+    }
 }

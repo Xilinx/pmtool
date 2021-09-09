@@ -103,6 +103,14 @@ font-size: 2vh;
   margin-bottom:0.82vh;
   /*font-size:1vw;*/
 }
+.popupbuttonsInner {
+padding-left: 1vh;
+padding-right: 1vh;
+font-size: 2vh;
+margin-right: 1.2vh;
+float: right;
+}
+
 .popup-background {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -137,6 +145,46 @@ margin: auto;
 width:2vh;
 height:2vh;
 }
+.boardsettings_table input[type=text]{
+align-content: center;
+display: block;
+text-align: center;
+margin: auto;
+width:6vh;
+height:2vh;
+font-size: 1.6vh;
+}
+select{
+align-content: center;
+display: block;
+text-align: center;
+margin: auto;
+width:6.75vh;
+height:2.75vh;
+font-size: 1.6vh;
+}
+.clocksdiv {
+    width: 200%;
+    margin-left: 0%;
+    transition: 0.25s;
+}
+.clocksdivSec {
+    width: 200%;
+    margin-left: -100%;
+    transition: 0.25s;
+}
+.clocks1div {
+    width:100%;
+    overflow: hidden;
+}
+.clocks2div {
+    width:50%;
+    float:left;
+}
+.clocks3div {
+    width:50%;
+    float:left;
+}
 .boardsettings_table {
     width: 100%;
     padding: 0vh 1vh 1vh 1vh;
@@ -145,6 +193,30 @@ height:2vh;
     line-height:1vh;
 }
 .boardsettings_table td, th {
+  border-bottom: 0.2vh solid #dedede;
+  text-align: left;
+  padding: 1vh;
+}
+.boardsettings_table_1 {
+    width: 100%;
+    padding: 0vh 1vh 1vh 1vh;
+}
+.boardsettings_table_1 tr, td{
+    line-height:1vh;
+}
+.boardsettings_table_1 td, th {
+  border-bottom: 0.2vh solid #dedede;
+  text-align: left;
+  padding: 1vh;
+}
+.boardsettings_table_2 {
+    width: 100%;
+    padding: 0vh 1vh 1vh 1vh;
+}
+.boardsettings_table_2 tr, td{
+    line-height:1vh;
+}
+.boardsettings_table_2 td, th {
   border-bottom: 0.2vh solid #dedede;
   text-align: left;
   padding: 1vh;
