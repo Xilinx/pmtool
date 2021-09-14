@@ -487,7 +487,10 @@ function sampleClicked(){
 
 
 }
+function fetchDeviceName(){
 
+    return "vck190";
+}
 function readpopupdata(obj,keyid){
     document.getElementById("apiloadingdiv").style.display = "block";
 
@@ -1118,6 +1121,9 @@ window.onclick = function(event) {
 }
 $(document).ready(function () {
     console.log("Version :v " + pmtool_version);
+    deviceName = fetchDeviceName();
+    mappin = createMapin(deviceName);
+
 
     var e = imagelayer("Layout.png",1);
 //    e.setAttribute("id","patguiimage");

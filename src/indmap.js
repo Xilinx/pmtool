@@ -608,7 +608,7 @@ var a_indexes = {
 
 };
 // mapping of action elements and registers
-var mappin = {
+var mappinCommon = {
     [GUIC.PRESET] : {
         "title" : "Preset"
         ,"onclick" : [GUI_KEYS.calllocalfn]
@@ -1162,3 +1162,19 @@ var labelsmap = {
         "dVal" : ""
     }
 }
+var dutmapList = {
+"vck190": [[GUIC.PRESET],[GUIC.SAMPLE],[GUIC.R5],[GUIC.R5_CLK],[GUIC.TCM],[GUIC.GEM],[GUIC.A72],[GUIC.L2],[GUIC.DDR],[GUIC.PLLS]]
+,"vmk180": [[GUIC.PRESET],[GUIC.SAMPLE],[GUIC.R5],[GUIC.TCM],[GUIC.GEM],[GUIC.PLLS]]
+
+};
+
+function createMapin(dev){
+    var maps = {};
+    for(var i in dutmapList[dev]){
+        maps[dutmapList[dev][i]] = mappinCommon[dutmapList[dev][i]]
+    }
+    return maps;
+}
+
+var deviceName;
+var mappin;
