@@ -163,6 +163,16 @@ width:6.75vh;
 height:2.75vh;
 font-size: 1.6vh;
 }
+.valuelabel{
+align-content: center;
+display: block;
+text-align: center;
+margin: auto;
+height:2.75vh;
+font-size: 1.6vh;
+font-weight: normal;
+line-height: 2.5vh;
+}
 .clocksdiv {
     width: 200%;
     margin-left: 0%;

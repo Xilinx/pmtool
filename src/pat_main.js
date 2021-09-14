@@ -755,6 +755,8 @@ function displaypopup(obj,responseData,respState,keyid){
         else if (comp.type == GUI_KEYS.valuelabel){
                var tdcomp = document.createElement("td");
                var em = document.createElement("label");
+               em.classList.add("valuelabel");
+
                em.setAttribute("type", "value");
                console.log("***************************************");
                console.log(responseData[comp.getaddress] & (bitToAddress(comp.getbit)));
