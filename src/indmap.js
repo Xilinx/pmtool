@@ -51,7 +51,7 @@ var gc_array = [
 var GUIC = Enum(gc_array);
 
 // GUI Type KEYS
-var gks = ["none","popups","label","checkbox","textfield","dropdown","calllocalfn","callextfnstrname"
+var gks = ["none","popups","label","valuelabel","checkbox","textfield","dropdown","calllocalfn","callextfnstrname"
         ,"registers_set_exception","heading","clockspopup","registers_set_on_off_exception"
 
         ];
@@ -1104,6 +1104,15 @@ var mappin = {
             ,"calc": function(adr){}
         }
         ,{
+            "title" : "CLOCK"
+            ,"type": [GUI_KEYS.valuelabel]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.CPU_R5_CTRL.CLKACT
+            ,"getaddress": REG_DB.CPU_R5_CTRL.Absolute_Address
+            ,"label": [GUIC.R5_CLK]
+            ,"ddlist": REG_DB.CPU_R5_CTRL.SRCSEL_DD_LIST
+            ,"calc": function(adr){}
+        },{
             "title" : "CLC_PERCENT"
             ,"type": [GUI_KEYS.label]
             ,"xsdbtarget": XSDBTARGETSLIST.TARGET00

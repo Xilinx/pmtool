@@ -68,8 +68,8 @@ function imagelayer(imgname, zind)   {
 }
     function getPLLClockOut( pll_clock){
         console.log(pll_clock,"----------------------");
-        var refClock = 100;
-        var altrefClock = 100;
+        var refClock = 33333333;
+        var altrefClock = 33333333;
         var RESET = valAt(pll_clock,"0");
         var BYPASS = valAt(pll_clock,"3");
         var FBDIV = valAt(pll_clock,"15:8");
@@ -148,7 +148,7 @@ function imagelayer(imgname, zind)   {
             if (SRCSEL == ddlist[0][i]){
                 var di = eval(ddlist[2][i]);
                 console.log(di.Absolute_Address);
-                pll_perc = getPLLClockOut(ot[di.Absolute_Address].value);
+                pll_perc = getPLLClockOut(ot[di.Absolute_Address]);
                 break;
             }
         }
@@ -156,8 +156,6 @@ function imagelayer(imgname, zind)   {
         console.log("pll perc: ",pll_perc);
         div_perc = pll_perc / DIVISOR;
         console.log("div perc: ",div_perc);
-
-
         return div_perc;
     }
 function labelAtpx(val, x, y, z,id){
@@ -165,7 +163,7 @@ function labelAtpx(val, x, y, z,id){
     em.innerHTML = val;
     em.classList.add("overlap");
     em.setAttribute("id",id+"lableID");
-    em.setAttribute("style","z-index:"+z+";left:"+(x/11.1)+"vh;top:"+(y/11.1)+"vh; width:0px; height:0px; font-size:1.81vh; white-space: nowrap;margin-top: "+(1.88)+"vh; margin-left: "+(3.221)+"vh; position:fixed;");//font13px
+    em.setAttribute("style","z-index:"+z+";left:"+(x/11.5)+"vh;top:"+(y/11.1)+"vh; width:0px; height:0px; font-size:1.61vh; white-space: nowrap;margin-top: "+(2.1)+"vh; margin-left: "+(3.221)+"vh; position:fixed;");//font13px
     return em;
 }
 
@@ -418,11 +416,14 @@ function updateButtonStatus(res){
                 console.log("update % labels here : ",ot);
 
                 console.log("update % labels here : ",comp.elems[l].ddlist);
+                var resu = {};
+                for(var n in ot){
+                    resu[ot[n]["address"]] = ot[n]["value"]
+                }
 
-
-                var val = getDividerClockOut(ot[comp.elems[l].getaddress].value,ot,comp.elems[l].ddlist);
+                var val = getDividerClockOut(ot[comp.elems[l].getaddress].value,resu,comp.elems[l].ddlist);
                 console.log("#"+mapinkes[k]+"lableID");
-                $("#"+mapinkes[k]+"lableID").text(val +"%");
+                $("#"+mapinkes[k]+"lableID").text(Math.round((val*100)/33333333) +"%");
                 console.log("percnetage out is : ",val);
             }
 
@@ -500,6 +501,19 @@ function readpopupdata(obj,keyid){
             d["address"] = comp.getaddress;
             d["xsdbtarget"] = comp.xsdbtarget;
             far.push(d);
+        }
+        for(var p in obj.elems[k]["ddlist"]){
+            for( var c in obj.elems[k]["ddlist"][2]){
+                if(ar.has(eval(obj.elems[k]["ddlist"][2][c]).Absolute_Address) == false){
+                    ar.add(eval(obj.elems[k]["ddlist"][2][c]).Absolute_Address);
+                    var d = {};
+                    d["address"] = eval(obj.elems[k]["ddlist"][2][c]).Absolute_Address;
+                    d["xsdbtarget"] = comp.xsdbtarget;
+                    far.push(d);
+                }
+            }
+
+
         }
     }
     var adrs = JSON.stringify(far);
@@ -729,6 +743,50 @@ function displaypopup(obj,responseData,respState,keyid){
 
 
 
+               tdcomp.appendChild(em)
+
+               var tdcomp0 = document.createElement("td");
+                var em0 = document.createTextNode(comp.title);
+                tdcomp0.appendChild(em0);
+
+               trcomp.appendChild(tdcomp0);
+               trcomp.appendChild(tdcomp);
+        }
+        else if (comp.type == GUI_KEYS.valuelabel){
+               var tdcomp = document.createElement("td");
+               var em = document.createElement("label");
+               em.setAttribute("type", "value");
+               console.log("***************************************");
+               console.log(responseData[comp.getaddress] & (bitToAddress(comp.getbit)));
+               console.log(responseData[comp.getaddress]);
+               console.log((bitToAddress(comp.getbit)));
+               var val = responseData[comp.getaddress] & (bitToAddress(comp.getbit));
+               console.log(comp.getbit);
+               var ar = comp.getbit.split(":");
+               fval = val >> ar[ar.length-1];
+//               em.setAttribute("value", fval);
+
+
+               em.setAttribute("getaddress", comp.getaddress);
+               em.setAttribute("getbit", bitToAddress(comp.getbit));
+               em.setAttribute("xsdbtarget", comp.xsdbtarget);
+               em.setAttribute("ddlist", comp.ddlist);
+
+               em.setAttribute("registers_set_exception", 0);
+               em.setAttribute("setaddress", comp.setaddress);
+               em.setAttribute("setbit", comp.getbit);
+
+               em.setAttribute("comp", comp.title);
+                console.log(responseData);
+
+                var val = getDividerClockOut(responseData[comp.getaddress],responseData,comp.ddlist);
+//                console.log("#"+mapinkes[k]+"lableID");
+//                $("#"+mapinkes[k]+"lableID").text(Math.round(val) +"%");
+                retval = Number(Math.round(val+'e0')+'e-6').toString().split(".");
+                if(retval.length != 2 ){
+                    retval[1] = "00";
+                }
+                em.innerHTML = retval[0]+"."+retval[1].substring(0,2)+" MHz"; //(val/1000000).toFixed(2);
                tdcomp.appendChild(em)
 
                var tdcomp0 = document.createElement("td");
