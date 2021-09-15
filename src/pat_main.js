@@ -68,8 +68,6 @@ function imagelayer(imgname, zind)   {
 }
     function getPLLClockOut( pll_clock){
         console.log(pll_clock,"----------------------");
-        var refClock = 33333333;
-        var altrefClock = 33333333;
         var RESET = valAt(pll_clock,"0");
         var BYPASS = valAt(pll_clock,"3");
         var FBDIV = valAt(pll_clock,"15:8");
@@ -423,7 +421,7 @@ function updateButtonStatus(res){
 
                 var val = getDividerClockOut(ot[comp.elems[l].getaddress].value,resu,comp.elems[l].ddlist);
                 console.log("#"+mapinkes[k]+"lableID");
-                $("#"+mapinkes[k]+"lableID").text(Math.round((val*100)/33333333) +"%");
+                $("#"+mapinkes[k]+"lableID").text(Math.round((val*100)/refClock) +"%");
                 console.log("percnetage out is : ",val);
             }
 

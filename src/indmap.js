@@ -64,6 +64,10 @@ var XSDBTARGETSLIST = {
     ,"TARGET02": "APU"
 };
 
+// Input clock values. Both ref clk and alt ref clk are same in versal ( vck190,vmk180).
+var refClock = 33333333;        //  REF_CLK = 33.33 MHz
+var altrefClock = 33333333;     //  ALT_REF_CLK = 33.33 MHz
+
 // reg db
 // title, address, bits and its names
 var REG_DB = {
