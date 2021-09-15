@@ -1119,12 +1119,7 @@ window.onclick = function(event) {
     document.getElementById("popform").style.display = "none";
   }
 }
-$(document).ready(function () {
-    console.log("Version :v " + pmtool_version);
-    deviceName = fetchDeviceName();
-    mappin = createMapin(deviceName);
-
-
+function loadComponents(){
     var e = imagelayer("Layout.png",1);
 //    e.setAttribute("id","patguiimage");
     $("#mainpatgui").append(e);
@@ -1171,7 +1166,6 @@ $(document).ready(function () {
     // Enable sample and preset by default
     noneButton([GUIC.SAMPLE]);
     });
-
     // Click actions
     $("#patguiimage").on("click", function(event) {
         bounds=this.getBoundingClientRect();
@@ -1186,4 +1180,26 @@ $(document).ready(function () {
         detectcall(this,px,py);
 
     });
+}
+$(document).ready(function () {
+    console.log("Version :v " + pmtool_version);
+    // Fetch device name and create GUI accordingly.
+    $.ajax({
+            url: req_regdata_url + "/getDeviceName/",   // TODO:: change after API integration
+            type: 'GET',                                // TODO:: change after API integration
+            data:"",                                    // TODO:: change after API integration
+            dataType: 'json',
+            success: function (res){
+                deviceName = res.deviceName;            // TODO:: change after API integration
+            },
+            error: function(){
+                deviceName = "";
+            },
+            complete: function(re,a){
+                deviceName = "vck190";                  // TODO:: Remove after API integration
+                mappin = createMapin(deviceName);
+                loadComponents();
+            }
+    });
+
 });
