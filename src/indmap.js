@@ -194,149 +194,149 @@ var REG_DB = {
    "RPU_PWR_CTRL":{
       "Isolation":" 4",
       "Pwr_Gates":" 3:0",
-      "Absolute_Address":"0x00FFC88080"
+      "Absolute_Address":"0xFFC88080"
    },
    "RPU_PWR_STATUS":{
       "Pwr_Gates":" 3:0",
-      "Absolute_Address":"0x00FFC88084"
+      "Absolute_Address":"0xFFC88084"
    },
    "L2_PWR_CTRL":{
       "Bank0":" 0",
-      "Absolute_Address":"0x00FFC880B0"
+      "Absolute_Address":"0xFFC880B0"
    },
    "L2_PWR_STATUS":{
       "Bank0":" 0",
-      "Absolute_Address":"0x00FFC880BC"
+      "Absolute_Address":"0xFFC880BC"
    },
    "OCM_PWR_CTRL":{
       "Bank3":"24",
       "Bank2":"16",
       "Bank1":" 8",
       "Bank0":" 0",
-      "Absolute_Address":"0x00FFC880C0"
+      "Absolute_Address":"0xFFC880C0"
    },
    "OCM_PWR_STATUS":{
       "Bank3":"24",
       "Bank2":"16",
       "Bank1":" 8",
       "Bank0":" 0",
-      "Absolute_Address":"0x00FFC880CC"
+      "Absolute_Address":"0xFFC880CC"
    },
    "TCM_PWR_CTRL":{
       "TCMB1":"24",
       "TCMA1":"16",
       "TCMB0":" 8",
       "TCMA0":" 0",
-      "Absolute_Address":"0x00FFC880D0"
+      "Absolute_Address":"0xFFC880D0"
    },
    "TCM_PWR_STATUS":{
       "TCMB1":"24",
       "TCMA1":"16",
       "TCMB0":" 8",
       "TCMA0":" 0",
-      "Absolute_Address":"0x00FFC880DC"
+      "Absolute_Address":"0xFFC880DC"
    },
    "GEM_PWR_CTRL":{
       "GEM1":" 8",
       "GEM0":" 0",
-      "Absolute_Address":"0x00FFC880E0"
+      "Absolute_Address":"0xFFC880E0"
    },
    "GEM_PWR_STATUS":{
       "GEM1":" 8",
       "GEM0":" 0",
-      "Absolute_Address":"0x00FFC880E8"
+      "Absolute_Address":"0xFFC880E8"
    },
    "RPU0_PWRDWN":{
       "EN":" 0",
-      "Absolute_Address":"0x00FF9A0108"
+      "Absolute_Address":"0xFF9A0108"
    },
    "RPU1_PWRDWN":{
       "EN":" 0",
-      "Absolute_Address":"0x00FF9A0208"
+      "Absolute_Address":"0xFF9A0208"
    },
    "PWR_UP_BANK0":{
       "I3":" 3",
       "I2":" 2",
       "I1":" 1",
       "I0":" 0",
-      "Absolute_Address":"0x00FF951100"
+      "Absolute_Address":"0xFF951100"
    },
    "PWR_DOWN_BANK0":{
       "I3":" 3",
       "I2":" 2",
       "I1":" 1",
       "I0":" 0",
-      "Absolute_Address":"0x00FF951104"
+      "Absolute_Address":"0xFF951104"
    },
    "PWR_STATUS_BANK0":{
       "I3":" 3",
       "I2":" 2",
       "I1":" 1",
       "I0":" 0",
-      "Absolute_Address":"0x00FF951108"
+      "Absolute_Address":"0xFF951108"
    },
    "PWR_UP_BANK1":{
       "I3":" 3",
       "I2":" 2",
       "I1":" 1",
       "I0":" 0",
-      "Absolute_Address":"0x00FF951110"
+      "Absolute_Address":"0xFF951110"
    },
    "PWR_DOWN_BANK1":{
       "I3":" 3",
       "I2":" 2",
       "I1":" 1",
       "I0":" 0",
-      "Absolute_Address":"0x00FF951114"
+      "Absolute_Address":"0xFF951114"
    },
    "PWR_STATUS_BANK1":{
       "I3":" 3",
       "I2":" 2",
       "I1":" 1",
       "I0":" 0",
-      "Absolute_Address":"0x00FF951118"
+      "Absolute_Address":"0xFF951118"
    },
    "PWR_UP_BANK2":{
       "I3":" 3",
       "I2":" 2",
       "I1":" 1",
       "I0":" 0",
-      "Absolute_Address":"0x00FF951120"
+      "Absolute_Address":"0xFF951120"
    },
    "PWR_DOWN_BANK2":{
       "I3":" 3",
       "I2":" 2",
       "I1":" 1",
       "I0":" 0",
-      "Absolute_Address":"0x00FF951124"
+      "Absolute_Address":"0xFF951124"
    },
    "PWR_STATUS_BANK2":{
       "I3":" 3",
       "I2":" 2",
       "I1":" 1",
       "I0":" 0",
-      "Absolute_Address":"0x00FF951128"
+      "Absolute_Address":"0xFF951128"
    },
    "PWR_UP_BANK3":{
       "I3":" 3",
       "I2":" 2",
       "I1":" 1",
       "I0":" 0",
-      "Absolute_Address":"0x00FF951130"
+      "Absolute_Address":"0xFF951130"
    },
    "PWR_DOWN_BANK3":{
       "I3":" 3",
       "I2":" 2",
       "I1":" 1",
       "I0":" 0",
-      "Absolute_Address":"0x00FF951134"
+      "Absolute_Address":"0xFF951134"
    },
    "PWR_STATUS_BANK3":{
       "I3":" 3",
       "I2":" 2",
       "I1":" 1",
       "I0":" 0",
-      "Absolute_Address":"0x00FF951138"
+      "Absolute_Address":"0xFF951138"
    },
    "CPLL_CTRL":{
       "POST_SRC":"26:24",
@@ -344,7 +344,7 @@ var REG_DB = {
       "FBDIV":"15:8",
       "BYPASS":" 3",
       "RESET":" 0",
-      "Absolute_Address":"0x00FCA00040"
+      "Absolute_Address":"0xFCA00040"
    },
    "APLL_CTRL":{
       "POST_SRC":"26:24",
@@ -353,7 +353,7 @@ var REG_DB = {
       "FBDIV":"15:8",
       "BYPASS":" 3",
       "RESET":" 0",
-      "Absolute_Address":"0x00FD1A0040"
+      "Absolute_Address":"0xFD1A0040"
    },
    "RPLL_CTRL":{
       "POST_SRC":"26:24",
@@ -371,7 +371,7 @@ var REG_DB = {
       "FBDiv":"15:8",
       "Bypass":" 3",
       "Reset":" 0",
-      "Absolute_Address":"0x00F1260040"
+      "Absolute_Address":"0xF1260040"
    },
    "NOCPLL_CTRL":{
       "Post_Src":"26:24",
@@ -386,19 +386,19 @@ var REG_DB = {
       "CLKACT":"25",
       "DIVISOR":"17:8",
       "SRCSEL":" 2:0",
-      "Absolute_Address":"0x00FD1A010C"
+      "Absolute_Address":"0xFD1A010C"
    },
    "PMC_PL0_REF_CTRL":{
       "ClkAct":"24",
       "Divisor":"17:8",
       "SrcSel":" 2:0",
-      "Absolute_Address":"0x00F12605C0"
+      "Absolute_Address":"0xF12605C0"
    },
    "PMC_PL1_REF_CTRL":{
       "ClkAct":"24",
       "Divisor":"17:8",
       "SrcSel":" 2:0",
-      "Absolute_Address":"0x00F12605C4"
+      "Absolute_Address":"0xF12605C4"
    },
    "REQ_PWRUP_INT_EN": {
         "Absolute_Address": "0xFFC90118",
@@ -496,23 +496,6 @@ var REG_DB = {
         "ACPU1": "1",
         "ACPU0": "0"
       },
-      "CPU_R5_CTRL": {
-        "Absolute_Address": "0xFF5E010C",
-        "reserved": "7:3",
-        "CLKACT_OCM2": "28",
-        "CLKACT_OCM": "27",
-        "CLKACT_CORE": "26",
-        "CLKACT": "25",
-        "DIVISOR0": "17:8",
-        "SRCSEL": "2:0"
-      },
-      "ACPU_CTRL": {
-        "Absolute_Address": "0xFD1A010C",
-        "reserved": "7:3",
-        "CLKACT": "25",
-        "DIVISOR0": "17:8",
-        "SRCSEL": "2:0"
-      },
       "DDR_RETENTION": {
         "Absolute_Address": "0xF1110324",
         "value": "0"
@@ -558,11 +541,16 @@ var REG_DB = {
         "DIVISOR0": "17:8",
         "SRCSEL": "2:0"
       },
-      'APLL_CTRL': {'Absolute_Address': '0xFD1A0040', 'reserved': '2:1', 'POST_SRC': '26:24', 'PRE_SRC': '22:20', 'CLKOUTDIV': '17:16', 'FBDIV': '15:8', 'BYPASS': '3', 'RESET': '0'},
       'CPU_R5_CTRL': {'Absolute_Address': '0xFF5E010C', 'reserved': '7:3', 'CLKACT_OCM2': '28', 'CLKACT_OCM': '27',
                        'CLKACT_CORE': '26', 'CLKACT': '25', 'DIVISOR0': '17:8', 'SRCSEL': '2:0',
                        'DIVISOR0_TXT_RANGE':'0-1023',
-                       'SRCSEL_DD_LIST':[[0b000,0b001,0b011],['PPLL','RPLL','NPLL'],['REG_DB.PMCPLL_CTRL','REG_DB.RPLL_CTRL','REG_DB.NOCPLL_CTRL']]}
+                       'SRCSEL_DD_LIST':[[0b000,0b001,0b011],['PPLL','RPLL','NPLL'],['REG_DB.PMCPLL_CTRL','REG_DB.RPLL_CTRL','REG_DB.NOCPLL_CTRL']]},
+      "ACPU_CTRL": {"Absolute_Address": "0xFD1A010C", "reserved": "7:3", "CLKACT": "25", "DIVISOR0": "17:8", "SRCSEL": "2:0",
+                        'DIVISOR0_TXT_RANGE':'0-1023',
+                       'SRCSEL_DD_LIST':[[0b000,0b001,0b010,0b011],['PPLL','RPLL','APLL','NPLL'],['REG_DB.PMCPLL_CTRL','REG_DB.RPLL_CTRL','REG_DB.APLL_CTRL','REG_DB.NOCPLL_CTRL']]},
+      "HSM1_REF_CTRL": {"Absolute_Address": "0xF126014C", "reserved": "7:3", "CLKACT": "25", "DIVISOR0": "17:8", "SRCSEL": "2:0",
+                        'DIVISOR0_TXT_RANGE':'0-1023',
+                       'SRCSEL_DD_LIST':[[0b000,0b011],['PPLL','NPLL'],['REG_DB.PMCPLL_CTRL','REG_DB.NOCPLL_CTRL']]}
 };
 // index of buttons and action elements
 var a_indexes = {
@@ -1125,6 +1113,121 @@ var mappinCommon = {
 
         ]
     }
+
+    ,[GUIC.A72_CLK] : {
+        "title" : "APU Clock"
+        ,"onclick" : [GUI_KEYS.popups]
+        ,"elems" : [{
+            "title" : "CLOCK"
+            ,"type": [GUI_KEYS.valuelabel]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.ACPU_CTRL.CLKACT
+            ,"getaddress": REG_DB.ACPU_CTRL.Absolute_Address
+            ,"label": [GUIC.ACPU_CTRL]
+            ,"ddlist": REG_DB.ACPU_CTRL.SRCSEL_DD_LIST
+            ,"calc": function(adr){}
+        },{
+            "title" : "CLKACT_CORE"
+            ,"type": [GUI_KEYS.checkbox]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.ACPU_CTRL.CLKACT
+            ,"getaddress": REG_DB.ACPU_CTRL.Absolute_Address
+            ,"setbit":REG_DB.ACPU_CTRL.CLKACT
+            ,"setaddress": REG_DB.ACPU_CTRL.Absolute_Address
+            ,"calc": function(adr){}
+        }
+        ,{
+            "title" : "DIVISOR"
+            ,"type": [GUI_KEYS.textfield]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.ACPU_CTRL.DIVISOR0
+            ,"getaddress": REG_DB.ACPU_CTRL.Absolute_Address
+            ,"setbit":REG_DB.ACPU_CTRL.DIVISOR0
+            ,"setaddress": REG_DB.ACPU_CTRL.Absolute_Address
+            ,"range": REG_DB.ACPU_CTRL.DIVISOR0_TXT_RANGE
+            ,"calc": function(adr){}
+        }
+        ,{
+            "title" : "SRCSEL"
+            ,"type": [GUI_KEYS.dropdown]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.ACPU_CTRL.SRCSEL
+            ,"getaddress": REG_DB.ACPU_CTRL.Absolute_Address
+            ,"setbit":REG_DB.ACPU_CTRL.SRCSEL
+            ,"setaddress": REG_DB.ACPU_CTRL.Absolute_Address
+            ,"ddlist": REG_DB.ACPU_CTRL.SRCSEL_DD_LIST
+            ,"calc": function(adr){}
+        }
+        ,{
+            "title" : "CLC_PERCENT"
+            ,"type": [GUI_KEYS.label]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.ACPU_CTRL.CLKACT
+            ,"getaddress": REG_DB.ACPU_CTRL.Absolute_Address
+            ,"label": [GUIC.A72_CLK]
+            ,"ddlist": REG_DB.ACPU_CTRL.SRCSEL_DD_LIST
+            ,"calc": function(adr){}
+        }
+
+        ]
+    }
+    ,[GUIC.DDR_CLK] : {
+        "title" : "DDRx4 Clock"
+        ,"onclick" : [GUI_KEYS.popups]
+        ,"elems" : [{
+            "title" : "CLOCK"
+            ,"type": [GUI_KEYS.valuelabel]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.HSM1_REF_CTRL.CLKACT
+            ,"getaddress": REG_DB.HSM1_REF_CTRL.Absolute_Address
+            ,"label": [GUIC.HSM1_REF_CTRL]
+            ,"ddlist": REG_DB.HSM1_REF_CTRL.SRCSEL_DD_LIST
+            ,"calc": function(adr){}
+        },{
+            "title" : "CLKACT_CORE"
+            ,"type": [GUI_KEYS.checkbox]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.HSM1_REF_CTRL.CLKACT
+            ,"getaddress": REG_DB.HSM1_REF_CTRL.Absolute_Address
+            ,"setbit":REG_DB.HSM1_REF_CTRL.CLKACT
+            ,"setaddress": REG_DB.HSM1_REF_CTRL.Absolute_Address
+            ,"calc": function(adr){}
+        }
+        ,{
+            "title" : "DIVISOR"
+            ,"type": [GUI_KEYS.textfield]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.HSM1_REF_CTRL.DIVISOR0
+            ,"getaddress": REG_DB.HSM1_REF_CTRL.Absolute_Address
+            ,"setbit":REG_DB.HSM1_REF_CTRL.DIVISOR0
+            ,"setaddress": REG_DB.HSM1_REF_CTRL.Absolute_Address
+            ,"range": REG_DB.HSM1_REF_CTRL.DIVISOR0_TXT_RANGE
+            ,"calc": function(adr){}
+        }
+        ,{
+            "title" : "SRCSEL"
+            ,"type": [GUI_KEYS.dropdown]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.HSM1_REF_CTRL.SRCSEL
+            ,"getaddress": REG_DB.HSM1_REF_CTRL.Absolute_Address
+            ,"setbit":REG_DB.HSM1_REF_CTRL.SRCSEL
+            ,"setaddress": REG_DB.HSM1_REF_CTRL.Absolute_Address
+            ,"ddlist": REG_DB.HSM1_REF_CTRL.SRCSEL_DD_LIST
+            ,"calc": function(adr){}
+        }
+        ,{
+            "title" : "CLC_PERCENT"
+            ,"type": [GUI_KEYS.label]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.HSM1_REF_CTRL.CLKACT
+            ,"getaddress": REG_DB.HSM1_REF_CTRL.Absolute_Address
+            ,"label": [GUIC.DDR_CLK]
+            ,"ddlist": REG_DB.HSM1_REF_CTRL.SRCSEL_DD_LIST
+            ,"calc": function(adr){}
+        }
+
+        ]
+    }
     ,[GUIC.PLLS] : {
         "title" : "PLLs"
         ,"onclick" : [GUI_KEYS.none]
@@ -1161,9 +1264,20 @@ var labelsmap = {
     [GUIC.R5_CLK] :{
         "dVal" : ""
     }
+    ,[GUIC.A72_CLK] :{
+        "dVal" : ""
+    }
+    ,[GUIC.DDR_CLK] :{
+        "dVal" : ""
+    }
 }
 var dutmapList = {
-"vck190": [[GUIC.PRESET],[GUIC.SAMPLE],[GUIC.R5],[GUIC.R5_CLK],[GUIC.TCM],[GUIC.GEM],[GUIC.A72],[GUIC.L2],[GUIC.DDR],[GUIC.PLLS]]
+"vck190": [[GUIC.PRESET],[GUIC.SAMPLE],
+            [GUIC.R5],[GUIC.TCM],[GUIC.GEM],
+            [GUIC.A72],[GUIC.L2],
+            [GUIC.DDR],
+            [GUIC.PLLS]]
+
 ,"vmk180": [[GUIC.PRESET],[GUIC.SAMPLE],[GUIC.R5],[GUIC.TCM],[GUIC.GEM],[GUIC.PLLS]]
 
 };
