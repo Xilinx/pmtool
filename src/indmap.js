@@ -603,8 +603,8 @@ var a_indexes = {
 var mappinCommon = {
     [GUIC.PRESET] : {
         "title" : "Preset"
-        ,"onclick" : [GUI_KEYS.calllocalfn]
-        ,"func" : function(){}
+        ,"onclick" : [GUI_KEYS.callextfnstrname]
+        ,"func" : "exportToPDMXml"
          ,"elems" : []
          }
     ,[GUIC.SAMPLE] : {
@@ -1276,13 +1276,13 @@ var labelsmap = {
     }
 }
 var dutmapList = {
-"vck190": [[GUIC.PRESET],[GUIC.SAMPLE],
+"vck190": [[GUIC.SAMPLE],
             [GUIC.R5],[GUIC.TCM],[GUIC.GEM],
             [GUIC.A72],[GUIC.L2],
             [GUIC.DDR],
             [GUIC.PLLS]]
 
-,"vmk180": [[GUIC.PRESET],[GUIC.SAMPLE],[GUIC.R5],[GUIC.TCM],[GUIC.GEM],[GUIC.PLLS]]
+,"vmk180": []
 
 };
 

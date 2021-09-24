@@ -22,7 +22,6 @@ id, type, x, y, width, valueToDisplay,
 */
 
 var pmtool_version = "Beta.0.0";
-
 function getlocallinkwithport (portno){
 var url = window.location.href;
 return "http://"+url.split(":")[1].substring(2)+":"+portno
@@ -431,6 +430,9 @@ function updateButtonStatus(res){
         if (hasReg){
             if (isOn){
                 noneButton(mapinkes[k]);
+                if([GUIC.PRESET] in mappin){
+                    noneButton([GUIC.PRESET])
+                }
             }
             else{
                 offButton(mapinkes[k]);
@@ -441,6 +443,7 @@ function updateButtonStatus(res){
 
     }
         noneButton([GUIC.SAMPLE]);
+
 
 }
 function sampleClicked(){
@@ -488,6 +491,9 @@ function sampleClicked(){
 function fetchDeviceName(){
 
     return "vck190";
+}
+function exportToPDMXml(){
+    console.log("export to xml"); // TODO :: Yet to implement
 }
 function readpopupdata(obj,keyid){
     document.getElementById("apiloadingdiv").style.display = "block";
