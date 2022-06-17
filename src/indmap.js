@@ -1279,6 +1279,7 @@ var dutmapList = {
 "vck190": [[GUIC.SAMPLE],
             [GUIC.R5],[GUIC.TCM],[GUIC.GEM],
             [GUIC.A72],[GUIC.L2],
+            [GUIC.R5_CLK],[GUIC.A72_CLK],[GUIC.DDR_CLK],
             [GUIC.DDR],
             [GUIC.PLLS]]
 

@@ -160,7 +160,7 @@ function labelAtpx(val, x, y, z,id){
     em.innerHTML = val;
     em.classList.add("overlap");
     em.setAttribute("id",id+"lableID");
-    em.setAttribute("style","z-index:"+z+";left:"+(x/11.5)+"vh;top:"+(y/11.1)+"vh; width:0px; height:0px; font-size:1.61vh; white-space: nowrap;margin-top: "+(2.1)+"vh; margin-left: "+(3.221)+"vh; position:fixed;");//font13px
+    em.setAttribute("style","z-index:"+z+";left:"+(x/11.0)+"vh;top:"+(y/11.1)+"vh; width:0px; height:0px; font-size:1.61vh; white-space: nowrap;margin-top: "+(2.1)+"vh; margin-left: "+(3.221)+"vh; position:fixed;");//font13px
     return em;
 }
 
