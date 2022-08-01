@@ -1259,6 +1259,14 @@ var mappinCommon = {
             ,"getaddress": REG_DB.NOCPLL_CTRL.Absolute_Address
             ,"calc": function(adr){}
         }
+        ,{
+            "title" : "APLL_CTRL"
+            ,"type": [GUI_KEYS.none]
+            ,"xsdbtarget": XSDBTARGETSLIST.TARGET00
+            ,"getbit": REG_DB.APLL_CTRL.RESET
+            ,"getaddress": REG_DB.APLL_CTRL.Absolute_Address
+            ,"calc": function(adr){}
+        }
         ]
     }
     /*PMC : No support for handling interrupt requests in plm */
