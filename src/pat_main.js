@@ -129,7 +129,7 @@ function imagelayer(imgname, zind)   {
         console.log("PLL Clock OUT: ",CAL_CLK);
         return CAL_CLK;
     }
-    function getDividerClockOut(div_clock,ot,ddlist){
+    function getDividerClockOut(div_clock,ot,ddlist,clkreg){
         var SRCSEL = valAt(div_clock,"2:0");
         var DIVISOR = valAt(div_clock,"17:8");
         var CLKACT = valAt(div_clock,"25");
@@ -137,8 +137,15 @@ function imagelayer(imgname, zind)   {
         console.log("SRCSEL ",SRCSEL.toString(16));
         console.log("DIVISOR ",DIVISOR.toString(16));
         console.log("CLKACT ",CLKACT.toString(16));
-        if(CLKACT == 0 || CLKACT_RPU == 0){
+        if (clkreg == REG_DB.CPU_R5_CTRL.Absolute_Address){
+            if(CLKACT_RPU == 0){
             return 0;
+        }
+        }
+        else{
+        if(CLKACT == 0){
+            return 0;
+        }
         }
         var pll_perc = 0;
         for(var i in ddlist[0]){
@@ -418,7 +425,7 @@ function updateButtonStatus(res){
                     resu[ot[n]["address"]] = ot[n]["value"]
                 }
 
-                var val = getDividerClockOut(ot[comp.elems[l].getaddress].value,resu,comp.elems[l].ddlist);
+                var val = getDividerClockOut(ot[comp.elems[l].getaddress].value,resu,comp.elems[l].ddlist,comp.elems[l].getaddress);
                 console.log("#"+mapinkes[k]+"lableID");
                 $("#"+mapinkes[k]+"lableID").text(Math.round((val*100)/refClock) +"%");
                 console.log("percnetage out is : ",val);
@@ -788,7 +795,7 @@ function displaypopup(obj,responseData,respState,keyid){
                em.setAttribute("comp", comp.title);
                 console.log(responseData);
 
-                var val = getDividerClockOut(responseData[comp.getaddress],responseData,comp.ddlist);
+                var val = getDividerClockOut(responseData[comp.getaddress],responseData,comp.ddlist,comp.getaddress);
 //                console.log("#"+mapinkes[k]+"lableID");
 //                $("#"+mapinkes[k]+"lableID").text(Math.round(val) +"%");
                 retval = Number(Math.round(val+'e0')+'e-6').toString().split(".");
