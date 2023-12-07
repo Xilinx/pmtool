@@ -1,0 +1,64 @@
+/*
+ Copyright (C) 2023 Advanced Micro Devices, Inc.  All rights reserved.
+ SPDX-License-Identifier: BSD-3-Clause
+*/
+
+@font-face{
+    font-family: Roboto-Regular;
+    src: url("Roboto-Regular.ttf")
+}
+
+.bk .butn {
+    color: orange !important;
+    font-size: 18px;
+    width:60px !important;
+    line-height: 80%;
+}
+.bk bk-btn bk-btn-primary{
+	background-color: orange; 
+}
+.bk-root .bk-btn-group {
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: 100%;
+}
+.bk .Black_bg{
+    background-color:#303030;
+    height:680px !important;
+}
+.bk .bk-btn .bk-btn-default{
+    color:orange;
+}
+.bk .selBtn{
+    color : green;
+}
+.bk .clockdata{
+    width: 550px !important;
+}
+.powerResult{
+    color:#88ad36;
+    font-weight:bold;
+    width : 700px;
+}
+.bk .fullpower_clock{
+    left: 65px !important;
+}
+.bk .ddr_clock{
+    left: 65px !important;
+}
+.bk .pld_clock{
+    top: 45px !important;
+}
+.lowpower{
+    background: orange;
+    height:485px !important;
+}
+.fullpower{
+   top: 4px !important;
+}
+.battpower{
+    top:424px !important;
+    background:#E0DF9A !important;
+}
