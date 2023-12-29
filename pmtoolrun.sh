@@ -5,6 +5,6 @@ if [ -z $ip ]; then
      echo "Cant find IP addr, please call /usr/bin/pmtoolrun.sh after assigning IP addr"
      exit 1
 else
-    echo "Power Management Dashboard Tool will be running at http://$ip:11111/"
-    bokeh serve --show --allow-websocket-origin=$ip:11111 /usr/share/pmtool/src/
+    echo "Power Management Dashboard Tool will be running at http://$ip:5006/"
+    bokeh serve --show --allow-websocket-origin=$ip:5006 /usr/share/pmtool/
 fi
