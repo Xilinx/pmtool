@@ -148,13 +148,10 @@ button_groups = {
     , "HS_periph": [GUIC["HS_PERF"]]
 }
 dutmapList = {
-    "vek280": [GUIC["R5/0"], GUIC["R5/0_CLK"], GUIC["R5/1"], GUIC["R5/1_CLK"], GUIC["LPD_CLK"], GUIC["TCM"], GUIC["OCM"], GUIC["PMU"], GUIC["CSU"], GUIC["LPD_PERF"]
+    "buttons": [GUIC["R5/0"], GUIC["R5/0_CLK"], GUIC["R5/1"], GUIC["R5/1_CLK"], GUIC["LPD_CLK"], GUIC["TCM"], GUIC["OCM"], GUIC["PMU"], GUIC["CSU"], GUIC["LPD_PERF"]
                , GUIC["A53/0"], GUIC["A53/0_CLK"], GUIC["A53/2"], GUIC["A53/2_CLK"], GUIC["A53/1"], GUIC["A53/1_CLK"], GUIC["A53/3"], GUIC["A53/3_CLK"]
                , GUIC["GPU"], GUIC["GPU_CLK"], GUIC["PLD_CLK1"], GUIC["PLD_CLK2"], GUIC["DDR"], GUIC["FPD_CLK"], GUIC["HS_PERF"], GUIC["PLD_OPT"]]
 
-    , "vhk158": [GUIC["CSU"]]
-    , "vpk180": []
-    , "vpk120": []
 }
 def create_map_in(dev):
     maps = {}

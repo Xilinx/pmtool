@@ -31,12 +31,13 @@
     color : green;
 }
 .bk .clockdata{
-    width: 550px !important;
+    overflow: auto !important;
+    height: 630px !important;
+    width:740px !important;
 }
 .powerResult{
-    color:#88ad36;
-    font-weight:bold;
-    width : 700px;
+    color:#88d992;
+    font-size:large;
 }
 .bk .fullpower_clock{
     left: 65px !important;
