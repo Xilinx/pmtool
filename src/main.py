@@ -65,41 +65,51 @@ def data_table(device_data):
     """
     return table
 
-
-try:
-    handle = pm_client.pm
-    data = handle.GetValuesAll()
-    board = handle.GetBoardInfo()
-    ps_temp = handle.GetPSTemperature()
-    deviceName = board["Product Name"]
-    device_data = data.get(deviceName)  # or data.get("VHK158", [])
-    if device_data:
-        power_result = Div(text=f"""
-            <p style="color: #88d992;font-size: large;">PS Temperature {ps_temp["PS_TEMP"]}°</p>
-        """
-        )
-
-        total_power = 0  # Initialize total_power variable outside the loop
-        for rail_data in device_data:
-            Rail_name = list(rail_data.keys())[0]
-            total_power_domain = rail_data[Rail_name].get("Total Power", 0)
-            rail_data_table = data_table(rail_data[Rail_name])
-            power_result.text += f"""
-            <p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} mW</span></p>
-            {rail_data_table}
+def power_data():
+    power_result = None
+    try:
+        handle = pm_client.pm
+        data = handle.GetValuesAll()
+        board = handle.GetBoardInfo()
+        ps_temp = handle.GetPSTemperature()
+        deviceName = board["Product Name"]
+        device_data = data.get(deviceName)  
+        if device_data:
+            power_result = Div(text=f"""
+                <p style="color: #88d992;font-size: large;">PS Temperature {ps_temp["Temperature Info"]["FPD Temp"]}°</p>
             """
-            total_power += total_power_domain
+                               )
 
-        power_result.text += f"""
-            <p class="powerResult">Total<span style= "float:right">{total_power} mW</span></p>
-        """
+            total_power = 0  
+            for rail_data in device_data:
+                Rail_name = list(rail_data.keys())[0]
+                total_power_domain = rail_data[Rail_name].get("Total Power", 0)
+                rail_data_table = data_table(rail_data[Rail_name])
+                power_result.text += f"""
+                <p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} mW</span></p>
+                {rail_data_table}
+                """
+                total_power += total_power_domain
+            power_result.text += f"""
+                <p class="powerResult">Total<span style= "float:right">{total_power} mW</span></p>
+            """
+            print(total_power)
+            power_result.css_classes = ["clockdata"]
+            power_result.margin = [50, 50, 0, 50]
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        power_result = Div(text="""
+            <p style="color: #88d992;font-size: large;"> No Data Available </p>
+        """, margin=[150, 300, 150, 300])
+    return power_result
 
-        power_result.css_classes = ["clockdata"]
-        power_result.margin = [50, 50, 0, 50]
-except Exception as e:
-    power_result = Div(text="""
-        <p style="color: #88d992;font-size: large;"> No Data Available </p>
-    """, margin=[150,300,150,300])
+power_result=power_data()
+def update_power_data():
+    global power_result
+    power_result = power_data()
+    select_btn.children[1] = power_result
+
+Preset.on_click(update_power_data)
 
 # Create buttons based on GUI_array
 enabled_buttons = set(dutmapList["buttons"])

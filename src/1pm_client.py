@@ -155,9 +155,15 @@ class PM_Client(object):
         }
         return board
     def GetPSTemperature(self):
-        ps_temp = {'PS_TEMP': 49.854}
-        return ps_temp
+        ps_temp ={
+                  "Temperature Info": {
+                    "FPD Temp": 52.955,
+                    "LPD Temp": 50.716,
+                    "PL Temp": 50.437
+                  }
+                }
 
+        return ps_temp
 pm = PM_Client()
 
 
