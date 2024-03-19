@@ -144,6 +144,20 @@ class PM_Client(object):
         }
         return data
 
+    def GetBoardInfo(self):
+        board = {
+              "Language": 0,
+              "Manufacturer": "XILINX",
+              "Product Name": "VCK190",
+              "Board Serial Number": "511201B01057",
+              "Board Part Number": "430511201",
+              "Board Revision": ""
+        }
+        return board
+    def GetPSTemperature(self):
+        ps_temp = {'PS_TEMP': 49.854}
+        return ps_temp
+
 pm = PM_Client()
 
 

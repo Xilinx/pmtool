@@ -96,11 +96,10 @@ try:
 
         power_result.css_classes = ["clockdata"]
         power_result.margin = [50, 50, 0, 50]
-    else:
-        power_result = Div(text="No data available.")
 except Exception as e:
-    print(f"An error occurred: {e}")
-    power_result = Div(text="", margin=[50,500,50,50])
+    power_result = Div(text="""
+        <p style="color: #88d992;font-size: large;"> No Data Available </p>
+    """, margin=[150,300,150,300])
 
 # Create buttons based on GUI_array
 enabled_buttons = set(dutmapList["buttons"])
@@ -130,10 +129,10 @@ PLD = create_button_group("PLD", "success", enabled_buttons)
 PLD_OPT = create_button_group("PLD_option", "success", enabled_buttons)
 
 
-select_btn = row(Select,power_result)
+select_btn = row(Select,power_result, max_height=695)
 table = column(select_btn,margin=[5, 10, 0, 10], css_classes=['Black_bg'], background="#303030")
 low_power = column(Preset, column(title1, *LPD1, *LPD2, background="#95D4A2", margin=[10, 0, 0, 15], max_width=75, css_classes=['lowpower']))
-full_power = column(title2, row(column(*FPD1), column(*FPD2, css_classes=['fullpower_clock'])), column(*FPD_CLK, margin=[0, 0, 0, 32]), row(column(*FPD3), column(*DDR, css_classes=['ddr_click']), margin=[10, 0, 0, 0]),  column(*HS_PERF, margin=[0, 0, 0, 20]), background="#93A5D1", css_classes=['fullpower'])
+full_power = column(title2, row(column(*FPD1), column(*FPD2, css_classes=['fullpower_clock'])), column(*FPD_CLK, margin=[0, 0, 0, 32]), row(column(*FPD3), column(*DDR, css_classes=['ddr_click'], margin=[0,0,0,45]), margin=[10, 0, 0, 0]),  column(*HS_PERF, margin=[0, 0, 0, 20]), background="#93A5D1", css_classes=['fullpower'])
 batt_power = column(full_power, column(BPD, css_classes=['battpower']), margin=[55, 0, 0, -40])
 programmable_domain = column(row(low_power, batt_power), column(title3, column(*PLD, css_classes=['pld_clock']), background="#E2BF7E", margin=[15, 0, 10, 15], width=210, height=130))
 final_layout = row(programmable_domain, table, background="#939393", max_height=695)
