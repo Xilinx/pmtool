@@ -19,21 +19,21 @@ Preset = Button (label=GUI_list[GUIC["PRESET"]]["label"], button_type="primary",
 Select = Button(label=GUI_list[GUIC["SELECT"]]["label"], button_type="primary", max_width=50, css_classes=["selBtn"])
 buttons = []
 title1 = Div(text="""
-     <p style= "text-align:center;font-family: Roboto-Regular; font-weight: bold;">Low <br> Power</p>
+     <p style= "text-align:center; font-weight: bold;">Low <br> Power</p>
     """,
              width=55,
              margin=[0, 0, 0, 15])
 title2 = Div(text="""
-     <p style= "text-align:center;font-family: Roboto-Regular; font-weight: bold;">Full Power <br> Domain</p>
+     <p style= "text-align:center; font-weight: bold;">Full Power <br> Domain</p>
     """,
              width=100,
              margin=[0, 0, 0, 35])
 title3 = Div(text="""
-     <p style= "text-align:center;font-family: Roboto-Regular; font-weight: bold; margin-left:25px; ">Programmable <br>Logic Domain</p>
+     <p style= "text-align:center; font-weight: bold; margin-left:25px; ">Programmable <br>Logic Domain</p>
     """,
              margin=[0, 0, 0, 35])
 BPD = Div(text = """
-    <p style= "text-align:center;font-family: Roboto-Regular; margin-left:35px; margin-right:6px; margin-top: 10px; font-weight: bold;">Batt Power <br> Domain</p>
+    <p style= "text-align:center; margin-left:35px; margin-right:6px; margin-top: 10px; font-weight: bold;">Batt Power <br> Domain</p>
 """,
           width=135,
           height=60,

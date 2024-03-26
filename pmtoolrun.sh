@@ -1,7 +1,10 @@
-# Copyright (C) 2024 Advanced Micro Devices, Inc.  All rights reserved.
-# SPDX-License-Identifier: MIT
-
 #!/bin/bash
+
+#
+# Copyright (c) 2024 Advanced Micro Devices, Inc.  All rights reserved.
+#
+# SPDX-License-Identifier: MIT
+#
 
 ip=$(ip -4 addr show eth0 | grep -oE "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" | cut -d ' ' -f2)
 if [ -z $ip ]; then
