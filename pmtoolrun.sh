@@ -12,5 +12,5 @@ if [ -z $ip ]; then
      exit 1
 else
     echo "Power Management Dashboard Tool will be running at http://$ip:5006/"
-    bokeh serve --show --allow-websocket-origin=$ip:5006 /usr/share/pmtool/
+    bokeh serve --show --allow-websocket-origin=$ip:5006 --allow-websocket-origin=$(hostname):5006 /usr/share/pmtool/
 fi
