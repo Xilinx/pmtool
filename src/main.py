@@ -16,7 +16,9 @@ def button_click_handler():
 def click():
     print("helloworld")
 Preset = Button (label=GUI_list[GUIC["PRESET"]]["label"], button_type="primary", margin=[15, 0, 0, 80], max_width=50)
+Preset.disabled = True
 Select = Button(label=GUI_list[GUIC["SELECT"]]["label"], button_type="primary", max_width=50, css_classes=["selBtn"])
+Select.disabled = True
 buttons = []
 title1 = Div(text="""
      <p style= "text-align:center; font-weight: bold;">Low <br> Power</p>
@@ -123,7 +125,7 @@ def create_button_group(button_group_name, button_type, enabled_buttons):
         button.button_type = button_type
         button.max_width=10
         if GUI_index in enabled_buttons:
-            # button.disabled= True
+            button.disabled= True
             buttons.append(button)
     return buttons
 
