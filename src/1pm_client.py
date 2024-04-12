@@ -154,15 +154,13 @@ class PM_Client(object):
               "Board Revision": ""
         }
         return board
-    def GetPSTemperature(self):
-        ps_temp ={
-                  "Temperature Info": {
-                    "FPD Temp": 52.955,
-                    "LPD Temp": 50.716,
-                    "PL Temp": 50.437
-                  }
-                }
-
+    def GetSysmonTemperatures(self):
+        ps_temp = {
+                      "TEMP": 30.0,
+                      "MIN": 0.0,
+                      "MAX_MAX": 0.0,
+                      "MIN_MIN": 0.0
+                    }
         return ps_temp
 pm = PM_Client()
 

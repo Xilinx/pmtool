@@ -73,15 +73,18 @@ def power_data():
         handle = pm_client.pm
         data = handle.GetValuesAll()
         board = handle.GetBoardInfo()
-        ps_temp = handle.GetPSTemperature()
+        ps_temp = handle.GetSysmonTemperatures()
         deviceName = board["Product Name"]
         device_data = data.get(deviceName)  
         if device_data:
+            try:
+                ps_temp_value = ps_temp["TEMP"]
+            except Exception as e:
+                ps_temp_value = "N/A"
             power_result = Div(text=f"""
-                <p style="color: #88d992;font-size: large;">PS Temperature {ps_temp["Temperature Info"]["FPD Temp"]}°</p>
+                <p style="color: #88d992;font-size: large;">PS Temperature {ps_temp_value}°</p>
             """
                                )
-
             total_power = 0  
             for rail_data in device_data:
                 Rail_name = list(rail_data.keys())[0]
@@ -95,7 +98,6 @@ def power_data():
             power_result.text += f"""
                 <p class="powerResult">Total<span style= "float:right">{total_power} mW</span></p>
             """
-            print(total_power)
             power_result.css_classes = ["clockdata"]
             power_result.margin = [50, 50, 0, 50]
     except Exception as e:
