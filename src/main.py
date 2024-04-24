@@ -47,8 +47,8 @@ def data_table(device_data):
             <tr>
                 <th></th>
                 <th style="width:150px;text-align:end">Voltage(V)</th>
-                <th style="width:150px;text-align:end">Current(mA)</th>
-                <th style="width:150px;text-align:end">Power(mW)</th>
+                <th style="width:150px;text-align:end">Current(A)</th>
+                <th style="width:150px;text-align:end">Power(W)</th>
             </tr>
     """
     for result in device_data.get("Rails", []):
@@ -91,7 +91,7 @@ def power_data():
                 total_power_domain = rail_data[Rail_name].get("Total Power", 0)
                 rail_data_table = data_table(rail_data[Rail_name])
                 power_result.text += f"""
-                <p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} mW</span></p>
+                <p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} </span></p>
                 {rail_data_table}
                 """
                 total_power += total_power_domain
