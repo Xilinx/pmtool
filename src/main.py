@@ -1,57 +1,95 @@
-# Copyright (C) 2023 Advanced Micro Devices, Inc.  All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (C) 2024 Advanced Micro Devices, Inc.  All rights reserved.
+# SPDX-License-Identifier: MIT
 
+from bokeh.plotting import figure, output_file, show
+from bokeh.models import Button, Div
+from bokeh.layouts import Column, Row, GridBox
 from bokeh.io import curdoc
-from bokeh.plotting import figure
-from bokeh.layouts import column, row
-from bokeh.models import Button, Div, CustomJS
 from config import *
 import sys
+
 sys.path.insert(1, '/usr/share/raft/xclient/raft_services')
 import pm_client
-
 curdoc().title = app_tile
-def button_click_handler():
-    print("Button clicked!")
-def click():
-    print("helloworld")
-Preset = Button (label=GUI_list[GUIC["PRESET"]]["label"], button_type="primary", margin=[15, 0, 0, 80], max_width=50)
-Preset.disabled = True
-Select = Button(label=GUI_list[GUIC["SELECT"]]["label"], button_type="primary", max_width=50, css_classes=["selBtn"])
-Select.disabled = True
-buttons = []
-title1 = Div(text="""
-     <p style= "text-align:center; font-weight: bold;">Low <br> Power</p>
-    """,
-             width=55,
-             margin=[0, 0, 0, 15])
-title2 = Div(text="""
-     <p style= "text-align:center; font-weight: bold;">Full Power <br> Domain</p>
-    """,
-             width=100,
-             margin=[0, 0, 0, 35])
-title3 = Div(text="""
-     <p style= "text-align:center; font-weight: bold; margin-left:25px; ">Programmable <br>Logic Domain</p>
-    """,
-             margin=[0, 0, 0, 35])
-BPD = Div(text = """
-    <p style= "text-align:center; margin-left:35px; margin-right:6px; margin-top: 10px; font-weight: bold;">Batt Power <br> Domain</p>
-""",
-          width=135,
-          height=60,
-          margin=[5, 0, 0, 0])
 
+
+
+
+Version = Div(text=f""" <p class="Version_info">{Version}</p> """)
+BUTTON_WIDTH=70
+def groupbuttons(domain_elements1,gridWidth=1):
+    column = Column()
+    gridbox = GridBox()
+    i = 0
+    j = 0
+    for button in domain_elements1:
+        if button["type"] == TYPE_MAJOR_BUTTON:
+            button = Button(label=button["title"],button_type=button["color"],margin=(10,10,0,10),width =BUTTON_WIDTH, disabled=True)
+            # column = Column(column,button)
+            gridbox.children.append((button, j, i))
+        elif button["type"] == TYPE_MINOR_BUTTON:
+            button2 = Button(label=button["title"],button_type=button["color"],margin=(5,10,0,10),width =BUTTON_WIDTH, disabled=True)
+            # column = Column(column, button2  )
+            gridbox.children.append((button2, j, i))
+            i = i+1
+        elif button["type"] == TYPE_CENTER_BUTTON:
+            button2 = Button(label=button["title"],button_type=button["color"], margin=(5, 10, 0, -int(button2.width / 2) - 5), width=BUTTON_WIDTH, disabled=True)
+            # column = Column(column, button2  )
+            if i % 2 == 1:
+                i = 0
+                j += 1
+            gridbox.children.append((button2, j, i + 1))
+            i = i + 1
+        elif button["type"] == TYPE_MAJMIN_COMBI_BUTTON:
+            button = Button(label=button["title"],button_type=button["color"],margin=(10,10,0,10),width =BUTTON_WIDTH, disabled=True)
+            button2 = Button(label="100%",button_type="warning",margin=(2,10,0,10),width =BUTTON_WIDTH, disabled=True)
+            column = Column(column,button, button2)
+            gridbox.children.append((column,j,i))
+        elif button["type"] == TYPE_MAJMIN_COMBI_BUTTON_GRID:
+            button = Button(label=button["title"],button_type=button["color"],margin=(10,10,0,10),width =BUTTON_WIDTH, disabled=True)
+            button2 = Button(label="100%",button_type="primary",margin=(2,0,0,10),width =BUTTON_WIDTH, disabled=True)
+            column2 = Column(button, button2)
+            gridbox.children.append((column2,j,i))
+        else:
+            pass
+        i = i + 1
+        if i >= gridWidth:
+            j = j + 1
+            i = 0
+    column = Column(gridbox,Column(height=20))
+    return column
+LPD = Column()
+FPD = Column()
+BPD = Column()
+PLD = Column()
+c = groupbuttons(domain_elements[0]["elements"])
+Lowpower = Column(Div(text=domain_elements[0]["group"],css_classes=["headings"]),LPD,c,background="#95D4A2", margin=(10,10,10,10))
+c = groupbuttons(domain_elements[1]["elements"],2)
+Fullpower = Column(Div(text=domain_elements[1]["group"],css_classes=["headings"]),FPD,c,background="#93A5D1", margin=(10,10,0,0))
+c = groupbuttons(domain_elements[2]["elements"])
+Battpower = Column(Div(text=domain_elements[2]["group"],css_classes=["headings"]),BPD,c,background="#E0DF9A", margin=(10,10,0,0), css_classes=["battpower"])
+c = groupbuttons(domain_elements[3]["elements"],2)
+Programmablelogic = Column(Div(text=domain_elements[3]["group"],css_classes=["headings"]),PLD,c,background="#E2BF7E", margin=(10,10,0,10), css_classes=["programmablelogic"])
+
+
+Preset = Button(label=default_buttons[0]["title"],button_type="primary",margin=(10,10,0,10),width =BUTTON_WIDTH, disabled = True,css_classes=["presetbtn"])
+Select = Button(label=default_buttons[1]["title"],button_type="primary",margin=(10,10,0,10),width =BUTTON_WIDTH, disabled = True)
+
+power_domains = Column(Column(Preset,Row(Lowpower,Column(Fullpower,Battpower)),Programmablelogic), css_classes=["all_domains"])
+
+
+#power data
 def data_table(device_data):
     table = f"""
-        <table style="color: green;max-width:100%;font-weight:bold;margin-left: 60px;">
+        <table id="powerdata">
             <tr>
                 <th></th>
-                <th style="width:150px;text-align:end">Voltage(V)</th>
-                <th style="width:150px;text-align:end">Current(A)</th>
-                <th style="width:150px;text-align:end">Power(W)</th>
+                <th style="width:150px;text-align:end">Voltage</th>
+                <th style="width:150px;text-align:end">Current</th>
+                <th style="width:150px;text-align:end">Power</th>
             </tr>
     """
-    for result in device_data.get("Rails", []):
+    for result in device_data.get("Rails"):
         key = list(result.keys())[0]
         rail_data = result[key]
         table += f"""
@@ -62,10 +100,11 @@ def data_table(device_data):
                 <td style="text-align:right">{rail_data.get("Power", 0)}</td>
             </tr>
         """
-    table += """
+    table += """    
         </table>
     """
     return table
+
 
 def power_data():
     power_result = None
@@ -74,32 +113,34 @@ def power_data():
         data = handle.GetValuesAll()
         board = handle.GetBoardInfo()
         ps_temp = handle.GetSysmonTemperatures()
+        total_power = handle.GetPowersAll()
         deviceName = board["Product Name"]
-        device_data = data.get(deviceName)  
+        device_data = data.get(deviceName)
         if device_data:
             try:
                 ps_temp_value = ps_temp["TEMP"]
             except Exception as e:
                 ps_temp_value = "N/A"
             power_result = Div(text=f"""
-                <p style="color: #88d992;font-size: large;">PS Temperature {ps_temp_value}°</p>
+                <p style="color: #88d992;font-size: large;">PS Temperature {ps_temp_value}° </p>
             """
                                )
-            total_power = 0  
+
             for rail_data in device_data:
                 Rail_name = list(rail_data.keys())[0]
                 total_power_domain = rail_data[Rail_name].get("Total Power", 0)
                 rail_data_table = data_table(rail_data[Rail_name])
                 power_result.text += f"""
-                <p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} </span></p>
+                <p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} mW</span></p>
                 {rail_data_table}
                 """
-                total_power += total_power_domain
+            device_total_power = total_power.get(deviceName, {})
+            total_power_name = list(device_total_power.keys())
+            total_power_value = device_total_power.get("Total Power", "N/A")
             power_result.text += f"""
-                <p class="powerResult">Total<span style= "float:right">{total_power} mW</span></p>
+                <p class="powerResult">{total_power_name[1]}<span style= "float:right">{total_power_value} mW</span></p>
             """
             power_result.css_classes = ["clockdata"]
-            power_result.margin = [50, 50, 0, 50]
     except Exception as e:
         print(f"An error occurred: {e}")
         power_result = Div(text="""
@@ -107,50 +148,33 @@ def power_data():
         """, margin=[150, 300, 150, 300])
     return power_result
 
-power_result=power_data()
+power_result = power_data()
+
+count_down = 6
+count_down_label = Div(text="")
+
 def update_power_data():
-    global power_result
-    power_result = power_data()
-    select_btn.children[1] = power_result
+    new_power_result = power_data()
+    power_result.text = new_power_result.text
 
-Preset.on_click(update_power_data)
+def timer():
+    global count_down
+    global count_down_label
+    if count_down <= 0:
+        update_power_data()
+        count_down = 5
+    else:
+        count_down -= 1
+    if count_down == 0:
+        count_down_label.text = f"<p class='timer'>updating in a moment...</p>"
+    else:
+        count_down_label.text = f"<p class='timer'>updating in {count_down} sec</p>"
 
-# Create buttons based on GUI_array
-enabled_buttons = set(dutmapList["buttons"])
-def create_button_group(button_group_name, button_type, enabled_buttons):
-    buttons = []
-    for GUI_index in button_groups[button_group_name]:
-        GUI_label = GUI_list[GUI_index]
-        title = GUI_label["label"]
-        button = Button(label=title, css_classes=['butn'],max_width=70)
-        # button.on_click(button_click_handler)
-        button.button_type = button_type
-        button.max_width=10
-        if GUI_index in enabled_buttons:
-            button.disabled= True
-            buttons.append(button)
-    return buttons
+timer()
+curdoc().add_periodic_callback(timer, 1000)
 
-LPD1 = create_button_group("LPD 1", "danger", enabled_buttons)
-LPD2 = create_button_group("LPD 2", "primary", enabled_buttons)
-FPD1 = create_button_group("FPD 1", "primary", enabled_buttons)
-FPD2 = create_button_group("FPD 2", "primary", enabled_buttons)
-FPD3 = create_button_group("FPD 3", "warning", enabled_buttons)
-DDR = create_button_group("DDR", "success", enabled_buttons)
-FPD_CLK = create_button_group("FPD_CLK", "primary", enabled_buttons)
-HS_PERF = create_button_group("HS_periph", "default", enabled_buttons)
-PLD = create_button_group("PLD", "success", enabled_buttons)
-PLD_OPT = create_button_group("PLD_option", "success", enabled_buttons)
+right_part = Row(Column(Select,power_result),Version,count_down_label,background="#303030", css_classes=["black_bg"])
 
-
-select_btn = row(Select,power_result, max_height=695)
-table = column(select_btn,margin=[5, 10, 0, 10], css_classes=['Black_bg'], background="#303030")
-low_power = column(Preset, column(title1, *LPD1, *LPD2, background="#95D4A2", margin=[10, 0, 0, 15], max_width=75, css_classes=['lowpower']))
-full_power = column(title2, row(column(*FPD1), column(*FPD2, css_classes=['fullpower_clock'])), column(*FPD_CLK, margin=[0, 0, 0, 32]), row(column(*FPD3), column(*DDR, css_classes=['ddr_click'], margin=[0,0,0,45]), margin=[10, 0, 0, 0]),  column(*HS_PERF, margin=[0, 0, 0, 20]), background="#93A5D1", css_classes=['fullpower'])
-batt_power = column(full_power, column(BPD, css_classes=['battpower']), margin=[55, 0, 0, -40])
-programmable_domain = column(row(low_power, batt_power), column(title3, column(*PLD, css_classes=['pld_clock']), background="#E2BF7E", margin=[15, 0, 10, 15], width=210, height=130))
-final_layout = row(programmable_domain, table, background="#939393", max_height=695)
-curdoc().add_root(row(final_layout))
-
-
+# Add the column to the current document
+curdoc().add_root(Row(power_domains,right_part))
 

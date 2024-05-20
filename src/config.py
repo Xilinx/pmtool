@@ -3,158 +3,141 @@
 
 
 app_tile = "Power Management Dashboard"
-GUI_array = [
-    "SELECT", "PRESET"
-    , "R5/0", "R5/0_CLK", "R5/1", "R5/1_CLK", "LPD_CLK", "TCM", "OCM", "PMU", "CSU", "LPD_PERF"
-    , "A53/0", "A53/0_CLK", "A53/1", "A53/1_CLK", "A53/2", "A53/2_CLK", "A53/3", "A53/3_CLK", "FPD_CLK", "GPU", "GPU_CLK", "DDR", "HS_PERF"
-    , "PLD_CLK1", "PLD_CLK2", "PLD_OPT"
+Version = "V 0.1"
+
+
+#enum for button type
+TYPE_MAJOR_BUTTON = 1
+TYPE_MINOR_BUTTON = 2
+TYPE_MAJMIN_COMBI_BUTTON = 3
+TYPE_MAJMIN_COMBI_BUTTON_GRID = 4
+TYPE_CENTER_BUTTON = 5
+default_buttons = [
+    {
+        "title":"Preset",
+        "type":TYPE_MAJOR_BUTTON,
+        "color":"primary"
+    },
+    {
+        "title":"Select",
+        "type":TYPE_MAJOR_BUTTON,
+        "color": "primary"
+    },
 ]
-gks = ["none", "popups", "label", "valuelabel", "checkbox", "textfield", "dropdown", "calllocalfn", "clockspopup"]
+domain_elements = [
+    {
+        "group": "Low <br> Power",
+     "elements": [
+    {
+        "title":"R5/0",
+        "type": TYPE_MAJMIN_COMBI_BUTTON,
+        "color": "warning"
+    },
+    {
+        "title":"R5/1",
+        "type": TYPE_MAJMIN_COMBI_BUTTON,
+        "color": "warning"
+    },
+    {
+        "title":"100%",
+        "type": TYPE_MAJOR_BUTTON,
+        "color": "warning"
+    },
+    {
+        "title":"TCM",
+        "type": TYPE_MINOR_BUTTON,
+        "color": "success"
+    },
+    {
+        "title":"OCM",
+        "type": TYPE_MAJOR_BUTTON,
+        "color": "success"
+    },
+    {
+        "title":"PMU",
+        "type": TYPE_MAJOR_BUTTON,
+        "color": "warning"
+    },
+    {
+        "title":"CSU",
+        "type": TYPE_MAJOR_BUTTON,
+        "color": "primary"
+    },
+    {
+        "title":"Periph",
+        "type": TYPE_MAJOR_BUTTON,
+        "color": "danger"
+    }
+     ]
+    },
+     {
+        "group": "Full power <br> Domain",
+     "elements": [
+    {
+        
+        "title":"A53/0",
+        "type": TYPE_MAJMIN_COMBI_BUTTON_GRID,
+        "color": "primary"
+        
+    },
+    {
+        "title":"A53/1",
+        "type": TYPE_MAJMIN_COMBI_BUTTON_GRID,
+        "color": "primary"
+    },
+    {
+        "title":"A53/2",
+        "type": TYPE_MAJMIN_COMBI_BUTTON_GRID,
+        "color": "primary"
+    },
+    {
+        "title":"A53/3",
+        "type": TYPE_MAJMIN_COMBI_BUTTON_GRID,
+        "color": "primary"
+    },
+    {
+        "title":"100%",
+        "type": TYPE_CENTER_BUTTON,
+        "color": "primary"
+    },
+    {
+        "title":"GPU",
+        "type": TYPE_MAJMIN_COMBI_BUTTON,
+        "color": "warning"
+    },
+    {
+        "title":"DDR",
+        "type": TYPE_MAJOR_BUTTON,
+        "color": "success"
+    },
+    {
+        "title":"HS Periph",
+        "type": TYPE_CENTER_BUTTON,
+        "color": "danger"
+    }
+     ]
+    },
+    {
+        "group":"Batt Power <br> Domain",
+        "elements":[
+    
+        ]
+    },
+    {
+        "group":"Programmable <br> Lagic Domain",
+        "elements":[
+    {
+        "title":"100%",
+        "type": TYPE_MAJMIN_COMBI_BUTTON_GRID,
+        "color": "primary"
+    },
+    {
+        "title":"Options",
+        "type": TYPE_MAJOR_BUTTON,
+        "color": "primary"
+    },
+        ]
+    }
 
-GUIC = {GUI: i for i, GUI in enumerate(GUI_array)}
-GUI_KEYS = {GUIK: i for i, GUIK in enumerate(gks)}
+]
 
-GUI_list = {
-    GUIC["SELECT"]: {
-        "label": "Select"
-        , "onclick": GUI_KEYS["popups"]
-        , "func": " "
-    }
-    , GUIC["PRESET"]: {
-        "label": "Preset"
-        , "onclick": ""
-        , "func": " "
-    }
-    , GUIC["R5/0"]: {
-        "label": "R5/0"
-        , "onclick": ""
-        , "elems": [{
-            "title": ""
-        }]
-    }
-    , GUIC["R5/0_CLK"]: {
-        "label": "clock"
-        , "onclick": GUI_KEYS["popups"]
-    }
-    , GUIC["R5/1"]: {
-        "label": "R5/1"
-        , "onclick": ""
-    }
-    , GUIC["R5/1_CLK"]: {
-        "label": "clock"
-        , "onclick": "hello world"
-    }
-    , GUIC["LPD_CLK"]: {
-        "label": "clock"
-        , "onclick": "hello"
-    }
-    , GUIC["TCM"]: {
-        "label": "TCM"
-        , "onclick": "hello world"
-    }
-    , GUIC["OCM"]: {
-        "label": "OCM"
-        , "onclick": "hello world"
-    }
-    , GUIC["PMU"]: {
-        "label": "PMU"
-        , "onclick": "hello world"
-    }
-    , GUIC["CSU"]: {
-        "label": "CSU"
-        , "onclick": "hello world"
-    }
-    , GUIC["LPD_PERF"]: {
-        "label": "Periph"
-        , "onclick": "hello world"
-    }
-    , GUIC["A53/0"]: {
-        "label": "A53/0"
-        , "onclick": ""
-    }
-    , GUIC["A53/0_CLK"]: {
-        "label": "clock"
-        , "onclick": "hello world"
-    }
-    , GUIC["A53/1"]: {
-        "label": "A53/1"
-        , "onclick": ""
-    }
-    , GUIC["A53/1_CLK"]: {
-        "label": "clock"
-        , "onclick": "hello world"
-    }
-    , GUIC["A53/2"]: {
-        "label": "A53/2"
-        , "onclick": "hello world"
-    }
-    , GUIC["A53/2_CLK"]: {
-        "label": "clock"
-        , "onclick": "hello world"
-    }
-    , GUIC["A53/3"]: {
-        "label": "A53/3"
-        , "onclick": "hello world"
-    }
-    , GUIC["A53/3_CLK"]: {
-        "label": "clock"
-        , "onclick": "hello world"
-    }
-    , GUIC["FPD_CLK"]: {
-        "label": "clock"
-        , "onclick": "hello world"
-    }
-    , GUIC["GPU"]: {
-        "label": "GPU"
-        , "onclick": "hello world"
-    }
-    , GUIC["GPU_CLK"]: {
-        "label": "clock"
-        , "onclick": "hello world"
-    }
-    , GUIC["DDR"]: {
-        "label": "DRR"
-        , "onclick": "hello world"
-    }
-    , GUIC["HS_PERF"]: {
-        "label": "HS Periph"
-        , "onclick": "hello world"
-    }
-    , GUIC["PLD_CLK1"]: {
-        "label": "clock"
-        , "onclick": "hello world"
-    }
-    , GUIC["PLD_CLK2"]: {
-        "label": "clock"
-        , "onclick": "hello world"
-    }
-    , GUIC["PLD_OPT"]: {
-        "label": "Options"
-        , "onclick": "hello world"
-    }
-}
-
-
-button_groups = {
-      "LPD 1": [ GUIC["R5/0"],GUIC["R5/0_CLK"],GUIC["R5/1"], GUIC["R5/1_CLK"], GUIC["LPD_CLK"]]
-    , "LPD 2": [GUIC["TCM"], GUIC["OCM"], GUIC["PMU"], GUIC["CSU"], GUIC["LPD_PERF"]]
-    , "FPD 1": [GUIC["A53/0"], GUIC["A53/0_CLK"], GUIC["A53/2"], GUIC["A53/2_CLK"]]
-    , "FPD 2": [GUIC["A53/1"], GUIC["A53/1_CLK"], GUIC["A53/3"], GUIC["A53/3_CLK"]]
-    , "FPD 3": [GUIC["GPU"], GUIC["GPU_CLK"]]
-    , "FPD_CLK": [GUIC["FPD_CLK"]]
-    , "PLD"  : [GUIC["PLD_CLK1"], GUIC["PLD_CLK2"]]
-    , "PLD_option" : [GUIC["PLD_OPT"]]
-    , "DDR"  : [GUIC["DDR"]]
-    , "HS_periph": [GUIC["HS_PERF"]]
-}
-dutmapList = {
-    "buttons": [GUIC["R5/0"], GUIC["R5/0_CLK"], GUIC["R5/1"], GUIC["R5/1_CLK"], GUIC["LPD_CLK"], GUIC["TCM"], GUIC["OCM"], GUIC["PMU"], GUIC["CSU"], GUIC["LPD_PERF"]
-               , GUIC["A53/0"], GUIC["A53/0_CLK"], GUIC["A53/2"], GUIC["A53/2_CLK"], GUIC["A53/1"], GUIC["A53/1_CLK"], GUIC["A53/3"], GUIC["A53/3_CLK"]
-               , GUIC["GPU"], GUIC["GPU_CLK"], GUIC["PLD_CLK1"], GUIC["PLD_CLK2"], GUIC["DDR"], GUIC["FPD_CLK"], GUIC["HS_PERF"], GUIC["PLD_OPT"]]
-
-}
-def create_map_in(dev):
-    maps = {}
-    for i in dutmapList[dev]:
-        maps[dutmapList[dev][i]] = GUI_list[dutmapList[dev][i]]
-    return maps
