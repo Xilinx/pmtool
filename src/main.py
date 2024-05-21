@@ -12,13 +12,9 @@ sys.path.insert(1, '/usr/share/raft/xclient/raft_services')
 import pm_client
 curdoc().title = app_tile
 
-
-
-
 Version = Div(text=f""" <p class="Version_info">{Version}</p> """)
 BUTTON_WIDTH=70
 def groupbuttons(domain_elements1,gridWidth=1):
-    column = Column()
     gridbox = GridBox()
     i = 0
     j = 0
@@ -43,7 +39,7 @@ def groupbuttons(domain_elements1,gridWidth=1):
         elif button["type"] == TYPE_MAJMIN_COMBI_BUTTON:
             button = Button(label=button["title"],button_type=button["color"],margin=(10,10,0,10),width =BUTTON_WIDTH, disabled=True)
             button2 = Button(label="100%",button_type="warning",margin=(2,10,0,10),width =BUTTON_WIDTH, disabled=True)
-            column = Column(column,button, button2)
+            column = Column(button, button2)
             gridbox.children.append((column,j,i))
         elif button["type"] == TYPE_MAJMIN_COMBI_BUTTON_GRID:
             button = Button(label=button["title"],button_type=button["color"],margin=(10,10,0,10),width =BUTTON_WIDTH, disabled=True)
@@ -56,20 +52,16 @@ def groupbuttons(domain_elements1,gridWidth=1):
         if i >= gridWidth:
             j = j + 1
             i = 0
-    column = Column(gridbox,Column(height=20))
+    column = Column(gridbox,Column(Div(height=15)))
     return column
-LPD = Column()
-FPD = Column()
-BPD = Column()
-PLD = Column()
-c = groupbuttons(domain_elements[0]["elements"])
-Lowpower = Column(Div(text=domain_elements[0]["group"],css_classes=["headings"]),LPD,c,background="#95D4A2", margin=(10,10,10,10))
-c = groupbuttons(domain_elements[1]["elements"],2)
-Fullpower = Column(Div(text=domain_elements[1]["group"],css_classes=["headings"]),FPD,c,background="#93A5D1", margin=(10,10,0,0))
-c = groupbuttons(domain_elements[2]["elements"])
-Battpower = Column(Div(text=domain_elements[2]["group"],css_classes=["headings"]),BPD,c,background="#E0DF9A", margin=(10,10,0,0), css_classes=["battpower"])
-c = groupbuttons(domain_elements[3]["elements"],2)
-Programmablelogic = Column(Div(text=domain_elements[3]["group"],css_classes=["headings"]),PLD,c,background="#E2BF7E", margin=(10,10,0,10), css_classes=["programmablelogic"])
+LPD = groupbuttons(domain_elements[0]["elements"])
+Lowpower = Column(Div(text=domain_elements[0]["group"],css_classes=["headings"]),LPD,background="#95D4A2", margin=(10,10,10,10))
+FPD = groupbuttons(domain_elements[1]["elements"],2)
+Fullpower = Column(Div(text=domain_elements[1]["group"],css_classes=["headings"]),FPD,background="#93A5D1", margin=(10,10,0,0))
+BPD = groupbuttons(domain_elements[2]["elements"])
+Battpower = Column(Div(text=domain_elements[2]["group"],css_classes=["headings"]),BPD,background="#E0DF9A", margin=(10,10,0,0), css_classes=["battpower"])
+PLD = groupbuttons(domain_elements[3]["elements"],2)
+Programmablelogic = Column(Div(text=domain_elements[3]["group"],css_classes=["headings"]),PLD,background="#E2BF7E", margin=(0,10,0,10), css_classes=["programmablelogic"])
 
 
 Preset = Button(label=default_buttons[0]["title"],button_type="primary",margin=(10,10,0,10),width =BUTTON_WIDTH, disabled = True,css_classes=["presetbtn"])
@@ -104,28 +96,29 @@ def data_table(device_data):
         </table>
     """
     return table
-
-
 def power_data():
     power_result = None
     try:
         handle = pm_client.pm
         data = handle.GetValuesAll()
         board = handle.GetBoardInfo()
-        ps_temp = handle.GetSysmonTemperatures()
         total_power = handle.GetPowersAll()
         deviceName = board["Product Name"]
         device_data = data.get(deviceName)
-        if device_data:
-            try:
+        ps_temp_value = None
+        try:
+            ps_temp = handle.GetSysmonTemperatures()
+            if "TEMP" in ps_temp:
                 ps_temp_value = ps_temp["TEMP"]
-            except Exception as e:
-                ps_temp_value = "N/A"
-            power_result = Div(text=f"""
-                <p style="color: #88d992;font-size: large;">PS Temperature {ps_temp_value}° </p>
-            """
-                               )
+        except Exception as e:
+            print(f"An error occurred while getting system temperatures: {e}")
+        if device_data:
+            power_result = Div(text="")
 
+            if ps_temp_value is not None:
+                power_result.text += f"""
+                                <p style="color: #88d992;font-size: large;">PS Temperature {ps_temp_value}° </p>
+                            """
             for rail_data in device_data:
                 Rail_name = list(rail_data.keys())[0]
                 total_power_domain = rail_data[Rail_name].get("Total Power", 0)
@@ -166,7 +159,7 @@ def timer():
     else:
         count_down -= 1
     if count_down == 0:
-        count_down_label.text = f"<p class='timer'>updating in a moment...</p>"
+        count_down_label.text = f"<p class='timer' style='left: 60% !important;'>updating in a moment...</p>"
     else:
         count_down_label.text = f"<p class='timer'>updating in {count_down} sec</p>"
 

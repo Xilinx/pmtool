@@ -1,8 +1,7 @@
 /*
- *  Copyright (C) 2024 Advanced Micro Devices, Inc.  All rights reserved.
- *   SPDX-License-Identifier: MIT
- *   */
-
+  Copyright (C) 2024 Advanced Micro Devices, Inc.  All rights reserved.
+  SPDX-License-Identifier: MIT
+*/
 .powerResult{
     color:#88d992;
     width : 700px;
@@ -12,7 +11,7 @@
     position: relative;
     color: #88d992;
     /* float: right; */
-   /* left: 100%;*/
+    left: 100%;
 }
 .Version_info{
     position: fixed;
