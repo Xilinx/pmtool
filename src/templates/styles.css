@@ -1,17 +1,28 @@
 /*
-  Copyright (C) 2024 Advanced Micro Devices, Inc.  All rights reserved.
-  SPDX-License-Identifier: MIT
+   Copyright (C) 2024 Advanced Micro Devices, Inc.  All rights reserved.
+   SPDX-License-Identifier: MIT
 */
+
 .powerResult{
     color:#88d992;
     width : 700px;
     font-size : large;
 }
+.table_line {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, #88d992, #88d992);
+    }
 .timer{
-    position: relative;
+    position:relative;
     color: #88d992;
     /* float: right; */
-    left: 100%;
+ /*   left: 100%;*/
+        width: 200px; /* or any suitable width */
+        display: inline-block;
+        text-align: center;
+    right: 0px;
+    top: 0;
 }
 .Version_info{
     position: fixed;
@@ -27,45 +38,40 @@
     margin-left: 60px;
 }
 .clockdata{
-    height: 90vh !important;
-    width: 69.5vw !important;
-    overflow: hidden !important;
     left: 10% !important;
-}
-.clockdata:hover{
-    overflow: auto !important;
-}
-.all_domains {
-    max-height: 97.5vh !important;
-    width: 26vw !important;
-    overflow-y: auto !important;
+    width:100% !important;
 }
 .battpower{
     width: 95% !important;
 }
 .headings{
-    font-weight: bold;
-    left: 30% !important;
-    top: 15px !important;
+    font-size: large !important;
+    text-align: center;
+    left: 20% !important;
 }
 .programmablelogic{
     width: 94% !important;
 }
-.black_bg{
-    width: 75vw !important;
-    height: 97.5vh !important;
-}
 .presetbtn{
     left: 35% !important;
 }
-@media only screen and (min-width: 1366px) and (max-width: 2160px){
+.black_bg{
+    background: #303030;
+    width:74vw !important;
+}
+@media only screen and (min-width: 1300px) and (max-width: 1560px){
     .black_bg{
-        width:83.5vw !important;
-        height: 98.5vh !important;
+        width:77vw !important;
     }
-    .clockdata{
-        width: 76vw !important;
-        height: 90vh !important;
+}
+@media only screen and (min-width: 1560px) and (max-width: 2160px){
+    .black_bg{
+        width:82.5vw !important;
+    }
+}
+@media only screen and (min-width:530px )and (max-width:1200px ){
+    .black_bg{
+        width:100% !important;
     }
 }
 

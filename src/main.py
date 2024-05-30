@@ -3,6 +3,7 @@
 
 from bokeh.plotting import figure, output_file, show
 from bokeh.models import Button, Div
+from bokeh.core.enums import SizingMode
 from bokeh.layouts import Column, Row, GridBox
 from bokeh.io import curdoc
 from config import *
@@ -55,13 +56,13 @@ def groupbuttons(domain_elements1,gridWidth=1):
     column = Column(gridbox,Column(Div(height=15)))
     return column
 LPD = groupbuttons(domain_elements[0]["elements"])
-Lowpower = Column(Div(text=domain_elements[0]["group"],css_classes=["headings"]),LPD,background="#95D4A2", margin=(10,10,10,10))
+Lowpower = Column(Column(Div(text=domain_elements[0]["group"],css_classes=["headings"]),width=80),LPD,background="#95D4A2", margin=(10,10,10,10))
 FPD = groupbuttons(domain_elements[1]["elements"],2)
-Fullpower = Column(Div(text=domain_elements[1]["group"],css_classes=["headings"]),FPD,background="#93A5D1", margin=(10,10,0,0))
+Fullpower = Column(Column(Div(text=domain_elements[1]["group"],css_classes=["headings"]),width=170),FPD,background="#93A5D1", margin=(10,10,0,0))
 BPD = groupbuttons(domain_elements[2]["elements"])
-Battpower = Column(Div(text=domain_elements[2]["group"],css_classes=["headings"]),BPD,background="#E0DF9A", margin=(10,10,0,0), css_classes=["battpower"])
-PLD = groupbuttons(domain_elements[3]["elements"],2)
-Programmablelogic = Column(Div(text=domain_elements[3]["group"],css_classes=["headings"]),PLD,background="#E2BF7E", margin=(0,10,0,10), css_classes=["programmablelogic"])
+Battpower = Column(Column(Div(text=domain_elements[2]["group"],css_classes=["headings"]),width=170),BPD,background="#E0DF9A", margin=(10,10,0,0), css_classes=["battpower"])
+PLD = groupbuttons(domain_elements[3]["elements"],3)
+Programmablelogic = Column(Column(Div(text=domain_elements[3]["group"],css_classes=["headings"]),width=250),PLD,background="#E2BF7E", margin=(0,10,0,10), css_classes=["programmablelogic"])
 
 
 Preset = Button(label=default_buttons[0]["title"],button_type="primary",margin=(10,10,0,10),width =BUTTON_WIDTH, disabled = True,css_classes=["presetbtn"])
@@ -76,9 +77,12 @@ def data_table(device_data):
         <table id="powerdata">
             <tr>
                 <th></th>
-                <th style="width:150px;text-align:end">Voltage</th>
-                <th style="width:150px;text-align:end">Current</th>
-                <th style="width:150px;text-align:end">Power</th>
+                <th style="width:150px;text-align:end;color:#88d992;">Voltage</th>
+                <th style="width:150px;text-align:end;color:#88d992;">Current</th>
+                <th style="width:150px;text-align:end;color:#88d992;">Power</th>
+            </tr>
+             <tr>
+                <td colspan="4" style="height:10px"></td>
             </tr>
     """
     for result in device_data.get("Rails"):
@@ -94,8 +98,10 @@ def data_table(device_data):
         """
     table += """    
         </table>
+        <hr class="table_line">
     """
     return table
+
 def power_data():
     power_result = None
     try:
@@ -124,14 +130,14 @@ def power_data():
                 total_power_domain = rail_data[Rail_name].get("Total Power", 0)
                 rail_data_table = data_table(rail_data[Rail_name])
                 power_result.text += f"""
-                <p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} mW</span></p>
+                <p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} </span></p>
                 {rail_data_table}
                 """
             device_total_power = total_power.get(deviceName, {})
             total_power_name = list(device_total_power.keys())
             total_power_value = device_total_power.get("Total Power", "N/A")
             power_result.text += f"""
-                <p class="powerResult">{total_power_name[1]}<span style= "float:right">{total_power_value} mW</span></p>
+                <p class="powerResult">{total_power_name[1]}<span style= "float:right">{total_power_value}</span></p>
             """
             power_result.css_classes = ["clockdata"]
     except Exception as e:
@@ -159,15 +165,17 @@ def timer():
     else:
         count_down -= 1
     if count_down == 0:
-        count_down_label.text = f"<p class='timer' style='left: 60% !important;'>updating in a moment...</p>"
+        count_down_label.text = f"<p class='timer' >updating in a moment...</p>"
     else:
         count_down_label.text = f"<p class='timer'>updating in {count_down} sec</p>"
 
 timer()
 curdoc().add_periodic_callback(timer, 1000)
 
-right_part = Row(Column(Select,power_result),Version,count_down_label,background="#303030", css_classes=["black_bg"])
+sizing_mode = SizingMode.scale_both
+right_part = Row(Column(Select,power_result),Version,count_down_label,css_classes=["black_bg"],sizing_mode=sizing_mode)
+column3= Column(right_part,sizing_mode=sizing_mode,background="#303030")
 
 # Add the column to the current document
-curdoc().add_root(Row(power_domains,right_part))
+curdoc().add_root(Row(power_domains,right_part, sizing_mode=sizing_mode))
 
