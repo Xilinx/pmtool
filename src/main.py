@@ -2,11 +2,12 @@
 # SPDX-License-Identifier: MIT
 
 from bokeh.plotting import figure, output_file, show
-from bokeh.models import Button, Div
+from bokeh.models import Button, Div, ColumnDataSource, Label, Legend, LegendItem
 from bokeh.core.enums import SizingMode
 from bokeh.layouts import Column, Row, GridBox
 from bokeh.io import curdoc
 from config import *
+from collections import deque
 import sys
 
 sys.path.insert(1, '/usr/share/raft/xclient/raft_services')
@@ -66,7 +67,7 @@ Programmablelogic = Column(Column(Div(text=domain_elements[3]["group"],css_class
 
 
 Preset = Button(label=default_buttons[0]["title"],button_type="primary",margin=(10,10,0,10),width =BUTTON_WIDTH, disabled = True,css_classes=["presetbtn"])
-Select = Button(label=default_buttons[1]["title"],button_type="primary",margin=(10,10,0,10),width =BUTTON_WIDTH, disabled = True)
+Select = Button(label=default_buttons[1]["title"],button_type="primary",margin=(10,10,0,10),width =BUTTON_WIDTH)
 
 power_domains = Column(Column(Preset,Row(Lowpower,Column(Fullpower,Battpower)),Programmablelogic), css_classes=["all_domains"])
 
@@ -77,9 +78,9 @@ def data_table(device_data):
         <table id="powerdata">
             <tr>
                 <th></th>
-                <th style="width:150px;text-align:end;color:#88d992;">Voltage</th>
-                <th style="width:150px;text-align:end;color:#88d992;">Current</th>
-                <th style="width:150px;text-align:end;color:#88d992;">Power</th>
+                <th style="width:150px;text-align:end;color:#88d992;">Voltage (V)</th>
+                <th style="width:150px;text-align:end;color:#88d992;">Current (A)</th>
+                <th style="width:150px;text-align:end;color:#88d992;">Power (W)</th>
             </tr>
              <tr>
                 <td colspan="4" style="height:10px"></td>
@@ -101,7 +102,6 @@ def data_table(device_data):
         <hr class="table_line">
     """
     return table
-
 def power_data():
     power_result = None
     try:
@@ -129,15 +129,17 @@ def power_data():
                 Rail_name = list(rail_data.keys())[0]
                 total_power_domain = rail_data[Rail_name].get("Total Power", 0)
                 rail_data_table = data_table(rail_data[Rail_name])
+
                 power_result.text += f"""
-                <p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} </span></p>
-                {rail_data_table}
+                <p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} W</span></p>
+                {rail_data_table} 
                 """
+
             device_total_power = total_power.get(deviceName, {})
             total_power_name = list(device_total_power.keys())
             total_power_value = device_total_power.get("Total Power", "N/A")
             power_result.text += f"""
-                <p class="powerResult">{total_power_name[1]}<span style= "float:right">{total_power_value}</span></p>
+                <p class="powerResult">{total_power_name[1]}<span style= "float:right">{total_power_value} W</span></p>
             """
             power_result.css_classes = ["clockdata"]
     except Exception as e:
@@ -148,34 +150,119 @@ def power_data():
     return power_result
 
 power_result = power_data()
-
-count_down = 6
+REFRESH_TIME=6
+count_down = REFRESH_TIME
 count_down_label = Div(text="")
 
 def update_power_data():
     new_power_result = power_data()
     power_result.text = new_power_result.text
 
+sample_size = 120
+x = deque(range(sample_size), maxlen=sample_size)
+pm_y = []
+
+domain_names = []
+domain_powers = []
+
+def pm_graph():
+    global domain_names, domain_powers, pm_y, x, sample_size
+    handle = pm_client.pm
+    board = handle.GetBoardInfo()
+    total_power = handle.GetPowersAll()
+    deviceName = board["Product Name"]
+    color_list = ["darkseagreen", "steelblue", "indianred", "chocolate", "mediumpurple", "rosybrown", "gold",
+                  "mediumaquamarine", "green", "pink", "red", "blue", "white", "brown", "yellow", "orange",
+                  "mediumaquamarine", "green", "pink", "red", "blue", "white", "brown", "yellow", "orange",
+                  "mediumaquamarine", "green", "pink", "red", "blue", "white", "brown", "yellow", "orange"]
+
+    power_domains = total_power.get(deviceName, {}).get("Power Domains", [])
+
+    for domain in power_domains:
+        domain_name = list(domain.keys())[0]
+        domain_power = domain[domain_name]["Power"]
+        domain_names.append(domain_name)
+        domain_powers.append(deque([domain_power] * sample_size, maxlen=sample_size))
+
+    pm_plot = figure(plot_width=800,plot_height=500, x_axis_label='seconds',y_axis_label='mW', x_range=(0, sample_size))
+    legend_items = []
+    for i, domain_name in enumerate(domain_names):
+        source = ColumnDataSource(data={'x': list(x), 'y': list(domain_powers[i])})
+        pm_y.append(source)
+        line = pm_plot.line('x', 'y', source=source, line_width=2, color=color_list[i])
+        legend_items.append(LegendItem(label=domain_name, renderers=[line]))
+
+        # last_power = domain_powers[i][-1]
+        # pm_plot.add_layout(Label(x=list(x)[-1], y=last_power, text=f'{domain_name}: {last_power} mW', text_align='left',
+        #                           text_font_size='10px', text_color='white'))
+
+    legend = Legend(items=legend_items, location="center")
+    pm_plot.add_layout(legend, 'below')
+    pm_plot.legend.orientation = "horizontal"
+    pm_plot.legend.click_policy = "hide"
+    # pm_plot.plot_width = 1200
+    pm_plot.title.align = 'center'
+
+    return pm_plot
+plot = pm_graph()
+plot.css_classes = ['pmgraph']
+def update_pm_graph():
+    global x
+    handle = pm_client.pm
+    board = handle.GetBoardInfo()
+    total_power = handle.GetPowersAll()
+    deviceName = board["Product Name"]
+    device_data = total_power.get(deviceName, {}).get("Power Domains", [])
+
+    for i, domain_name in enumerate(domain_names):
+        current_power = next(domain[domain_name]["Power"] for domain in device_data if domain_name in domain)
+        domain_powers[i].append(current_power)
+
+        pm_y[i].data = {'x': list(x), 'y': list(domain_powers[i])}
+        pm_y[i].trigger('data', pm_y[i].data, pm_y[i].data)
+
+        # plot.add_layout(Label(x=list(x)[-1], y=current_power, text=f'{domain_name}: {current_power} mW', text_align='left', text_font_size='10px', text_color='white'))
 def timer():
     global count_down
     global count_down_label
     if count_down <= 0:
         update_power_data()
-        count_down = 5
+
+        count_down = REFRESH_TIME
     else:
         count_down -= 1
-    if count_down == 0:
-        count_down_label.text = f"<p class='timer' >updating in a moment...</p>"
-    else:
-        count_down_label.text = f"<p class='timer'>updating in {count_down} sec</p>"
+    # if count_down == 0:
+    #     count_down_label.text = f"<p class='timer' >updating in a moment...</p>"
+    # else:
+    #     count_down_label.text = f"<p class='timer'>updating in {count_down} sec</p>"
 
 timer()
-curdoc().add_periodic_callback(timer, 1000)
+def flip():
+    if plot.visible:
+        plot.visible = False
+        power_result.visible = True
+        Select.label = "Switch to Graph"
+        right_part.css_classes = ["black_bg"]
+    else:
+        plot.visible = True
+        power_result.visible = False
+        Select.label = "Switch to Domains Info"
+        right_part.css_classes =["graph_bg"]
 
-sizing_mode = SizingMode.scale_both
-right_part = Row(Column(Select,power_result),Version,count_down_label,css_classes=["black_bg"],sizing_mode=sizing_mode)
-column3= Column(right_part,sizing_mode=sizing_mode,background="#303030")
+plot.visible = True
+power_result.visible = False
+Select.label = "Switch to Domains Info"
+
+Select.on_click(flip)
+
+
+curdoc().add_periodic_callback(timer, 1000)
+curdoc().add_periodic_callback(update_pm_graph, 1000)
+
+right_part = Row(Column(Select,power_result,plot),Version,count_down_label,css_classes=["graph_bg"])
+curdoc().theme = 'dark_minimal'
 
 # Add the column to the current document
-curdoc().add_root(Row(power_domains,right_part, sizing_mode=sizing_mode))
+curdoc().add_root(Row(right_part))
+
 

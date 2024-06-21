@@ -1,7 +1,7 @@
 /*
-   Copyright (C) 2024 Advanced Micro Devices, Inc.  All rights reserved.
-   SPDX-License-Identifier: MIT
-*/
+ *    Copyright (C) 2024 Advanced Micro Devices, Inc.  All rights reserved.
+ *       SPDX-License-Identifier: MIT
+ *       */
 
 .powerResult{
     color:#88d992;
@@ -9,18 +9,18 @@
     font-size : large;
 }
 .table_line {
-        border: 0;
-        height: 1px;
-        background-image: linear-gradient(to right, #88d992, #88d992);
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, #88d992, #88d992);
     }
 .timer{
     position:relative;
     color: #88d992;
     /* float: right; */
  /*   left: 100%;*/
-        width: 200px; /* or any suitable width */
-        display: inline-block;
-        text-align: center;
+    width: 200px;
+    display: inline-block;
+    text-align: center;
     right: 0px;
     top: 0;
 }
@@ -38,8 +38,12 @@
     margin-left: 60px;
 }
 .clockdata{
-    left: 10% !important;
+    left: 38% !important;
     width:100% !important;
+}
+.pmgraph{
+    top: 10% !important;
+    left: 28% !important;
 }
 .battpower{
     width: 95% !important;
@@ -56,22 +60,41 @@
     left: 35% !important;
 }
 .black_bg{
+    display: flex;
     background: #303030;
-    width:74vw !important;
+    width:98vw !important;
 }
-@media only screen and (min-width: 1300px) and (max-width: 1560px){
-    .black_bg{
-        width:77vw !important;
-    }
+.graph_bg{
+    background: #303030;
+    width:98.6vw !important;
+    height:98vh !important;
 }
 @media only screen and (min-width: 1560px) and (max-width: 2160px){
-    .black_bg{
-        width:82.5vw !important;
+    .pmgraph {
+        left: 67% !important;
+    }
+    .black_bg {
+        width: 98.6vw !important;
+    }
+    .graph_bg{
+        width: 99.2vw !important;
+    }
+    .clockdata{
+        left:84% !important;
     }
 }
-@media only screen and (min-width:530px )and (max-width:1200px ){
+@media only screen and (min-width:490px )and (max-width:1200px ){
+    .pmgraph {
+        top: 10% !important;
+        left: 2% !important;
+    }
+    .graph_bg{
+        width:170vw !important;
+    }
     .black_bg{
-        width:100% !important;
+        width:120vw !important;
+    }
+    .clockdata{
+        left:0 !important;
     }
 }
-
