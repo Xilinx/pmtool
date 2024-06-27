@@ -30,7 +30,7 @@ device_data = []
 ps_temp_value = None
 total_power = {}
 
-REFRESH_TIME=6
+REFRESH_TIME=4
 count_down = REFRESH_TIME
 color_list = ["darkseagreen", "steelblue", "indianred", "chocolate", "mediumpurple", "rosybrown", "gold",
               "mediumaquamarine", "green", "pink", "red", "blue", "white", "brown", "yellow", "orange"]
@@ -148,48 +148,38 @@ def power_data():
     global ps_temp_value
     global deviceName
     global total_power
-    result = Column()
+    result = Column(align="center",sizing_mode="scale_width")
     try:
         if device_data:
+            power_result = Div(text="")
+
             if ps_temp_value is not None:
-                power_result = Div(text="""<p style="color: #88d992;font-size: large;">PS Temperature {ps_temp_value}° </p""")
-                result.children.append(power_result)
+                power_result.text += f"""
+                                <p style="color: #88d992;font-size: large;">PS Temperature {ps_temp_value}° </p>
+                            """
             for rail_data in device_data:
                 Rail_name = list(rail_data.keys())[0]
                 total_power_domain = rail_data[Rail_name].get("Total Power", 0)
                 rail_data_table = data_table(rail_data[Rail_name])
-                button_2 = Button(label="+",width =10, height=40, name=Rail_name, max_height=12, margin=(17,40,0,20))
-                button_2.on_click(expandClicked)
-                if Rail_name in expand_buttons:
-                    button_2.label=expand_buttons[Rail_name]
-                else:
-                    expand_buttons[Rail_name] = "+"
-                val = Row(button_2, Div(text=f"""<p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} W</span></p>"""))
-                result.children.append(val)
-                if expand_buttons[Rail_name] == "-":
-                    val = Column(Div(text=rail_data_table))
-                    result.children.append(val)
-                #power_result.text += f"""
-                #<p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} W</span></p>
-                #{rail_data_table} 
-                #"""
+
+                power_result.text += f"""
+                <p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} W</span></p>
+                {rail_data_table} 
+                """
 
             device_total_power = total_power.get(deviceName, {})
             total_power_name = list(device_total_power.keys())
             total_power_value = device_total_power.get("Total Power", "N/A")
-            power_result = Div(text=f"""
+            power_result.text += f"""
                 <p class="powerResult">{total_power_name[1]}<span style= "float:right">{total_power_value} W</span></p>
-            """)
+            """
             power_result.css_classes = ["clockdata"]
-            result.children.append(power_result)
-            
     except Exception as e:
         print(f"An error occurred: {e}")
         power_result = Div(text="""
             <p style="color: #88d992;font-size: large;"> No Data Available </p>
         """, margin=[150, 300, 150, 300])
-    return result
-
+    return power_result
 
 def pm_graph():
     global domain_names, domain_powers, pm_y, x, sample_size
@@ -202,7 +192,7 @@ def pm_graph():
         domain_names.append(domain_name)
         domain_powers.append(deque([domain_power] * sample_size, maxlen=sample_size))
 
-    pm_plot = figure( x_axis_label='seconds',y_axis_label='mW', x_range=(0, sample_size), sizing_mode="stretch_width")
+    pm_plot = figure( x_axis_label='seconds',y_axis_label='W', x_range=(0, sample_size), sizing_mode="stretch_width")
     legend_items = []
     for i, domain_name in enumerate(domain_names):
         source = ColumnDataSource(data={'x': list(x), 'y': list(domain_powers[i])})
@@ -241,17 +231,16 @@ def flip():
         plot.visible = False
         right_part.children[2].visible = True
         Select.label = "Switch to Graph"
-        right_part.css_classes = ["black_bg"]
     else:
         plot.visible = True
         right_part.children[2].visible = False
         Select.label = "Switch to Domains Info"
-        right_part.css_classes =["graph_bg"]
 
 def update_power_data():
-    new_power_result = power_data()
-    right_part.children[2].children[0] = new_power_result
-
+    if not plot.visible:
+        right_part.children[2] = power_data() 
+    else:
+        pass
 def timer():
     global count_down
     global count_down_label
@@ -280,7 +269,7 @@ Programmablelogic = Column(Column(Div(text=domain_elements[3]["group"],css_class
 
 
 Preset = Button(label=default_buttons[0]["title"],button_type="primary",margin=(10,10,0,10),width =BUTTON_WIDTH, disabled = True,css_classes=["presetbtn"])
-Select = Button(label=default_buttons[1]["title"],button_type="primary",margin=(10,10,0,10),width =BUTTON_WIDTH)
+Select = Button(label=default_buttons[1]["title"],button_type="primary",margin=(10,10,40,10),width =BUTTON_WIDTH)
 
 power_domains = Column(Column(Preset,Row(Lowpower,Column(Fullpower,Battpower)),Programmablelogic), css_classes=["all_domains"])
 
@@ -292,11 +281,12 @@ count_down_label = Div(text="")
 plot = pm_graph()
 plot.css_classes = ['pmgraph']
 
-domainInfo=Column()
+domainInfo=Column(sizing_mode="stretch_width")
 domainInfo.children.append(power_result)
 
 #right_part = Row(Column(Select,power_result,plot),Version,count_down_label,css_classes=["graph_bg"])
-right_part = Column(Select,plot, domainInfo,sizing_mode="stretch_width")
+right_part = Column(Select,plot, power_result, Version, sizing_mode="stretch_width")
+right_part.css_classes =["black_bg"]
 
 flip()
 Select.on_click(flip)

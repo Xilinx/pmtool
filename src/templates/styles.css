@@ -1,28 +1,37 @@
 /*
- *    Copyright (C) 2024 Advanced Micro Devices, Inc.  All rights reserved.
- *       SPDX-License-Identifier: MIT
- *       */
+   Copyright (C) 2024 Advanced Micro Devices, Inc.  All rights reserved.
+   SPDX-License-Identifier: MIT
+*/
 
 .powerResult{
     color:#88d992;
-    width : 700px;
     font-size : large;
+    width:700px !important;
+
+}
+.powerResult span {
+    right:2px;
+     float: right;
 }
 .table_line {
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, #88d992, #88d992);
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, #88d992, #88d992);
     }
-.timer{
+/*.timer{
     position:relative;
     color: #88d992;
-    /* float: right; */
- /*   left: 100%;*/
-    width: 200px;
-    display: inline-block;
-    text-align: center;
+        width: 200px;
+        display: inline-block;
+        text-align: center;
     right: 0px;
     top: 0;
+}*/
+#powerdata {
+    color: green;
+    max-width: 100%;
+    font-weight: bold;
+    margin-left: 60px;
 }
 .Version_info{
     position: fixed;
@@ -31,31 +40,22 @@
     color: #88d992;
     font-size: x-small;
 }
-#powerdata {
-    color: green;
-    max-width: 100%;
-    font-weight: bold;
-    margin-left: 60px;
-}
 .clockdata{
-    left: 38% !important;
-    width:100% !important;
+    left: 2% !important;
 }
 .pmgraph{
-    top: 10% !important;
-    left: 28% !important;
 }
-.battpower{
+/*.battpower{
     width: 95% !important;
-}
+}*/
 .headings{
     font-size: large !important;
     text-align: center;
     left: 20% !important;
 }
-.programmablelogic{
+/*.programmablelogic{
     width: 94% !important;
-}
+}*/
 .presetbtn{
     left: 35% !important;
 }
@@ -64,37 +64,29 @@
     background: #303030;
     width:98vw !important;
 }
-.graph_bg{
-    background: #303030;
-    width:98.6vw !important;
-    height:98vh !important;
+.custom_table .slick-header-column {
+    background-color: #303030 !important;
+    background-image: none !important;
+    color:#88d992 !important;
+    font-size:13px;
+    font-weight: bold;
 }
-@media only screen and (min-width: 1560px) and (max-width: 2160px){
-    .pmgraph {
-        left: 67% !important;
-    }
-    .black_bg {
-        width: 98.6vw !important;
-    }
-    .graph_bg{
-        width: 99.2vw !important;
-    }
-    .clockdata{
-        left:84% !important;
-    }
+
+.custom_table .slick-row {
+    background-color: #303030 !important;
+    background-image: none !important;
+    color:#88d992 !important;
+    font-size:13px;
 }
-@media only screen and (min-width:490px )and (max-width:1200px ){
-    .pmgraph {
-        top: 10% !important;
-        left: 2% !important;
-    }
-    .graph_bg{
-        width:170vw !important;
-    }
-    .black_bg{
-        width:120vw !important;
-    }
-    .clockdata{
-        left:0 !important;
-    }
+
+.custom_table .bk-cell-index {
+    background-color: #88d992 !important;
+    background-image: none !important;
+    color:#88d992 !important;
 }
+
+.custom_textinput {
+    background-color: #88d992 !important;
+    color:#88d992 !important;
+}
+
