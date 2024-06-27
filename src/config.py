@@ -3,7 +3,7 @@
 
 
 app_tile = "Power Management Dashboard"
-Version = "V 0.1"
+Version = "V 1.0"
 
 
 #enum for button type
