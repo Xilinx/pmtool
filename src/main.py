@@ -227,7 +227,9 @@ def update_pm_graph():
         # plot.add_layout(Label(x=list(x)[-1], y=current_power, text=f'{domain_name}: {current_power} mW', text_align='left', text_font_size='10px', text_color='white'))
 
 def flip():
+    global count_down
     if plot.visible:
+        count_down = 1
         plot.visible = False
         right_part.children[2].visible = True
         Select.label = "Switch to Graph"
