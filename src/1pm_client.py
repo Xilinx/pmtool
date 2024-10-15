@@ -162,6 +162,65 @@ class PM_Client(object):
                       "MIN_MIN": 0.0
                     }
         return ps_temp
+    def GetPowersAll(self):
+        total_power = {
+                          "VCK190": {
+                            "Power Domains": [
+                              {
+                                "FPD": {
+                                  "Power": 0.5539
+                                }
+                              },
+                              {
+                                "LPD": {
+                                  "Power": 0.2545
+                                }
+                              },
+                              {
+                                "PLD": {
+                                  "Power": 9.2938
+                                }
+                              },
+                              {
+                                "PMC": {
+                                  "Power": 0.4543
+                                }
+                              },
+                              {
+                                "GTM": {
+                                  "Power": 0.5312
+                                }
+                              },
+                              {
+                                "GTY": {
+                                  "Power": 0.0605
+                                }
+                              },
+                              {
+                                "FMC": {
+                                  "Power": 0.6335
+                                }
+                              },
+                              {
+                                "HBM": {
+                                  "Power": 0.4582
+                                }
+                              },
+                              {
+                                "system": {
+                                  "Power": 4.9275
+                                }
+                              },
+                              {
+                                "chip": {
+                                  "Power": 16.7441
+                                }
+                              }
+                            ],
+                            "Total Power": 33.9115
+                          }
+                        }
+        return total_power
 pm = PM_Client()
 
 
