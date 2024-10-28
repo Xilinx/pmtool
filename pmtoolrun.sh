@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: MIT
 #
 
-ip=$(ip -4 addr show eth0 | grep -oE "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" | cut -d ' ' -f2)
+ip=$(ip -4 addr show end0 | grep -oE "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" | cut -d ' ' -f2)
 if [ -z $ip ]; then
      echo "Cant find IP addr, please call /usr/bin/pmtoolrun.sh after assigning IP addr"
      exit 1
