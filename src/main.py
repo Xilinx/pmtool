@@ -21,7 +21,7 @@ handle = pm_client.pm
 board = handle.GetBoardInfo()
 deviceName = board["Product Name"]
 
-Version = Div(text=f""" <p class="Version_info">{Version}</p> """)
+Version = Div(text=f""" <p class="Version_info" style="position: fixed; bottom: 0; right: 30px; font-size: x-small;">{Version}</p> """)
 BUTTON_WIDTH=70
 
 expand_buttons = {}
@@ -86,7 +86,7 @@ def groupbuttons(domain_elements1,gridWidth=1):
 
 def data_table(device_data):
     table = f"""
-        <table id="powerdata">
+        <table style="color: green; max-width: 100%; font-weight: bold; margin-left: 60px;">
             <tr>
                 <th></th>
                 <th style="width:150px;text-align:end;color:#88d992;">Voltage (V)</th>
@@ -110,7 +110,7 @@ def data_table(device_data):
         """
     table += """    
         </table>
-        <hr class="table_line">
+        <hr style="border: 0; height: 1px; background-image: linear-gradient(to right, #88d992, #88d992);">
     """
     return table
 
@@ -155,7 +155,7 @@ def power_data():
 
             if ps_temp_value is not None:
                 power_result.text += f"""
-                                <p style="color: #88d992;font-size: large;">PS Temperature {ps_temp_value}° </p>
+                                <p style="font-size: large; left: 2%; position: relative;">PS Temperature {ps_temp_value}° </p>
                             """
             for rail_data in device_data:
                 Rail_name = list(rail_data.keys())[0]
@@ -163,7 +163,7 @@ def power_data():
                 rail_data_table = data_table(rail_data[Rail_name])
 
                 power_result.text += f"""
-                <p class="powerResult">{Rail_name}<span style= "float:right">{total_power_domain} W</span></p>
+                <p style = " font-size: large; width: 700px; left: 2%; position: relative;">{Rail_name}<span style= "float:right">{total_power_domain} W</span></p>
                 {rail_data_table} 
                 """
 
@@ -171,13 +171,12 @@ def power_data():
             total_power_name = list(device_total_power.keys())
             total_power_value = device_total_power.get("Total Power", "N/A")
             power_result.text += f"""
-                <p class="powerResult">{total_power_name[1]}<span style= "float:right">{total_power_value} W</span></p>
+                <p style = " font-size: large; width: 700px; left: 2%; position: relative;">{total_power_name[1]}<span style= "float:right">{total_power_value} W</span></p>
             """
-            power_result.css_classes = ["clockdata"]
     except Exception as e:
         print(f"An error occurred: {e}")
         power_result = Div(text="""
-            <p style="color: #88d992;font-size: large;"> No Data Available </p>
+            <p style="font-size: large;"> No Data Available </p>
         """, margin=[150, 300, 150, 300])
     return power_result
 
@@ -223,9 +222,7 @@ def update_pm_graph():
 
         pm_y[i].data = {'x': list(x), 'y': list(domain_powers[i])}
         pm_y[i].trigger('data', pm_y[i].data, pm_y[i].data)
-
-        # plot.add_layout(Label(x=list(x)[-1], y=current_power, text=f'{domain_name}: {current_power} mW', text_align='left', text_font_size='10px', text_color='white'))
-
+        
 def flip():
     global count_down
     if plot.visible:
@@ -253,10 +250,6 @@ def timer():
         count_down = REFRESH_TIME
     else:
         count_down -= 1
-    # if count_down == 0:
-    #     count_down_label.text = f"<p class='timer' >updating in a moment...</p>"
-    # else:
-    #     count_down_label.text = f"<p class='timer'>updating in {count_down} sec</p>"
 
 
 
@@ -286,9 +279,8 @@ plot.css_classes = ['pmgraph']
 domainInfo=Column(sizing_mode="stretch_width")
 domainInfo.children.append(power_result)
 
-#right_part = Row(Column(Select,power_result,plot),Version,count_down_label,css_classes=["graph_bg"])
 right_part = Column(Select,plot, power_result, Version, sizing_mode="stretch_width")
-right_part.css_classes =["black_bg"]
+right_part.css_classes =["dashboard"]
 
 flip()
 Select.on_click(flip)
@@ -298,4 +290,5 @@ curdoc().add_periodic_callback(timer, 1000)
 
 curdoc().theme = 'dark_minimal'
 curdoc().add_root(right_part)
+
 
